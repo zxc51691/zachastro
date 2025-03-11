@@ -1,0 +1,550 @@
+---
+// src/pages/schedule.astro
+import PageLayout from '../layouts/pagelayout.astro';
+// Import the ScheduleItem component
+import ScheduleItem from '../components/scheduleitem.astro';
+
+// Days for tabs
+const days = [
+  { id: 'day1', date: 'May 15', name: 'Day 1' },
+  { id: 'day2', date: 'May 16', name: 'Day 2' },
+  { id: 'day3', date: 'May 17', name: 'Day 3' }
+];
+
+// Schedule data for day 1 only (for simplicity)
+const day1Schedule = [
+  {
+    time: '8:00 - 9:00',
+    title: 'Registration & Breakfast',
+    location: 'Main Lobby',
+    type: 'break'
+  },
+  {
+    time: '9:00 - 10:00',
+    title: 'Opening Keynote: The Future of Core Engineering',
+    location: 'Main Hall',
+    speakers: [
+      { name: 'Alex Johnson', company: 'TechInnovate' }
+    ],
+    description: 'Join our opening keynote as we explore the evolving landscape of core engineering and the challenges that will shape our industry in the coming years.',
+    track: 'main',
+    type: 'keynote',
+    tags: ['Trends', 'Engineering Culture']
+  },
+  {
+    time: '10:15 - 11:15',
+    title: 'Designing Resilient Distributed Systems',
+    location: 'Room A',
+    speakers: [
+      { name: 'Sarah Chen', company: 'DataCore Systems' }
+    ],
+    description: 'Learn practical strategies for building distributed systems that can withstand failures, scale effectively, and maintain performance under pressure.',
+    track: 'cloud',
+    tags: ['Distributed Systems', 'Resilience', 'System Design']
+  }
+];
+
+// Simplified schedule data for additional days
+const day2Schedule = [
+  {
+    time: '8:30 - 9:00',
+    title: 'Breakfast',
+    location: 'Main Lobby',
+    type: 'break'
+  },
+  {
+    time: '9:00 - 10:00',
+    title: 'Keynote: Engineering for Global Scale',
+    location: 'Main Hall',
+    speakers: [
+      { name: 'Sophia Ramirez', company: 'GlobalTech' }
+    ],
+    description: 'Insights from building systems that serve billions of users across diverse global regions.',
+    track: 'main',
+    type: 'keynote',
+    tags: ['Global Scale', 'Engineering Challenges']
+  }
+];
+
+const day3Schedule = [
+  {
+    time: '8:30 - 9:00',
+    title: 'Breakfast',
+    location: 'Main Lobby',
+    type: 'break'
+  },
+  {
+    time: '9:00 - 10:00',
+    title: 'Closing Keynote: The Road Ahead for Core Engineers',
+    location: 'Main Hall',
+    speakers: [
+      { name: 'Dr. Thomas Park', company: 'Innovation Labs' }
+    ],
+    description: 'A forward-looking perspective on the skills, technologies, and mindsets that will define successful core engineers in the coming decade.',
+    track: 'main',
+    type: 'keynote',
+    tags: ['Career Development', 'Future Skills']
+  }
+];
+---
+
+<PageLayout
+  title="Conference Schedule"
+  description="Explore the schedule for CoreCon 2025"
+  heroTitle="Conference Schedule"
+  heroSubtitle="Three days of in-depth technical content and hands-on experiences"
+>
+  <div class="schedule-container">
+    <div class="schedule-intro">
+      <p>CoreCon 2025 features technical sessions, keynotes, hands-on workshops, and panel discussions. Below is our conference schedule by day.</p>
+    </div>
+    
+    <!-- Simple Day Links -->
+    <div class="day-links">
+      <a href="#day1" class="day-link">Day 1 (May 15)</a>
+      <a href="#day2" class="day-link">Day 2 (May 16)</a>
+      <a href="#day3" class="day-link">Day 3 (May 17)</a>
+    </div>
+    
+    <!-- Day 1 Schedule -->
+    <div class="day-schedule" id="day1">
+      <h2 class="day-heading">Day 1 - May 15</h2>
+      
+      <div class="schedule-items">
+        {day1Schedule.map(item => (
+          <div class="schedule-item">
+            <div class="schedule-time">
+              <span>{item.time}</span>
+            </div>
+            <div class="schedule-content">
+              <h3 class="schedule-title">{item.title}</h3>
+              {item.location && <div class="schedule-location">{item.location}</div>}
+              {item.description && <p class="schedule-description">{item.description}</p>}
+              {item.speakers && item.speakers.length > 0 && (
+                <div class="schedule-speakers">
+                  {item.speakers.map(speaker => (
+                    <div class="schedule-speaker">
+                      <span>{speaker.name}</span>
+                      {speaker.company && <span class="speaker-company">({speaker.company})</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {item.tags && item.tags.length > 0 && (
+                <div class="schedule-tags">
+                  {item.tags.map(tag => (
+                    <span class="schedule-tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Day 2 Schedule -->
+    <div class="day-schedule" id="day2">
+      <h2 class="day-heading">Day 2 - May 16</h2>
+      
+      <div class="schedule-items">
+        {day2Schedule.map(item => (
+          <div class="schedule-item">
+            <div class="schedule-time">
+              <span>{item.time}</span>
+            </div>
+            <div class="schedule-content">
+              <h3 class="schedule-title">{item.title}</h3>
+              {item.location && <div class="schedule-location">{item.location}</div>}
+              {item.description && <p class="schedule-description">{item.description}</p>}
+              {item.speakers && item.speakers.length > 0 && (
+                <div class="schedule-speakers">
+                  {item.speakers.map(speaker => (
+                    <div class="schedule-speaker">
+                      <span>{speaker.name}</span>
+                      {speaker.company && <span class="speaker-company">({speaker.company})</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {item.tags && item.tags.length > 0 && (
+                <div class="schedule-tags">
+                  {item.tags.map(tag => (
+                    <span class="schedule-tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Day 3 Schedule -->
+    <div class="day-schedule" id="day3">
+      <h2 class="day-heading">Day 3 - May 17</h2>
+      
+      <div class="schedule-items">
+        {day3Schedule.map(item => (
+          <div class="schedule-item">
+            <div class="schedule-time">
+              <span>{item.time}</span>
+            </div>
+            <div class="schedule-content">
+              <h3 class="schedule-title">{item.title}</h3>
+              {item.location && <div class="schedule-location">{item.location}</div>}
+              {item.description && <p class="schedule-description">{item.description}</p>}
+              {item.speakers && item.speakers.length > 0 && (
+                <div class="schedule-speakers">
+                  {item.speakers.map(speaker => (
+                    <div class="schedule-speaker">
+                      <span>{speaker.name}</span>
+                      {speaker.company && <span class="speaker-company">({speaker.company})</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {item.tags && item.tags.length > 0 && (
+                <div class="schedule-tags">
+                  {item.tags.map(tag => (
+                    <span class="schedule-tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+    .schedule-container {
+      width: 100%;
+      max-width: var(--container-max-width);
+      margin: 0 auto;
+    }
+    
+    .schedule-intro {
+      margin-bottom: 2rem;
+      background-color: var(--color-accent-light);
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+      border-left: 4px solid var(--color-accent);
+    }
+    
+    .schedule-intro p {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      margin-bottom: 0;
+      color: var(--color-text-dark);
+    }
+    
+    /* Day Links - Styled like tabs */
+    .day-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      background-color: var(--color-secondary-light);
+      padding: 0.75rem;
+      border-radius: var(--border-radius-md);
+    }
+    
+    .day-link {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all var(--transition-normal);
+      color: var(--color-text-dark);
+      background-color: white;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .day-link:hover {
+      background-color: var(--color-accent-light);
+      color: var(--color-accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .day-link.active {
+      background-color: var(--color-accent);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* Schedule Content */
+    .day-heading {
+      margin-bottom: 2rem;
+      font-size: 1.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 3px solid var(--color-accent);
+      color: var(--color-text-dark);
+    }
+    
+    .schedule-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    
+    /* Schedule Item Styles - Base */
+    .schedule-item {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-radius: var(--border-radius-md);
+      background-color: white;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 4px solid var(--color-secondary);
+    }
+    
+    .schedule-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Style for different session types */
+    /* Keynotes - Primary Blue */
+    .schedule-item:has(.schedule-title:contains("Keynote")) {
+      border-left-color: var(--color-primary);
+    }
+    
+    /* Breaks - Accent Amber */
+    .schedule-item:has(.schedule-title:contains("Breakfast")),
+    .schedule-item:has(.schedule-title:contains("Lunch")),
+    .schedule-item:has(.schedule-title:contains("Break")),
+    .schedule-item:has(.schedule-title:contains("Registration")) {
+      border-left-color: var(--color-accent);
+    }
+    
+    /* Workshops - Secondary Purple */
+    .schedule-item:has(.schedule-title:contains("Workshop")),
+    .schedule-item:has(.schedule-title:contains("Hands-on")) {
+      border-left-color: var(--color-secondary);
+    }
+    
+    /* Schedule time slots - match colors to event type */
+    .schedule-time {
+      width: 110px;
+      padding: 1.5rem;
+      background-color: var(--color-secondary-light);
+      color: var(--color-secondary-dark);
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    
+    .schedule-item:has(.schedule-title:contains("Keynote")) .schedule-time {
+      background-color: var(--color-primary-light);
+      color: var(--color-primary-dark);
+    }
+    
+    .schedule-item:has(.schedule-title:contains("Breakfast")) .schedule-time,
+    .schedule-item:has(.schedule-title:contains("Lunch")) .schedule-time,
+    .schedule-item:has(.schedule-title:contains("Break")) .schedule-time,
+    .schedule-item:has(.schedule-title:contains("Registration")) .schedule-time {
+      background-color: var(--color-accent-light);
+      color: var(--color-accent-dark);
+    }
+    
+    .schedule-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+    }
+    
+    .schedule-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 0.75rem 0;
+      color: var(--color-text-dark);
+    }
+    
+    /* Colored titles based on session type */
+    .schedule-item:has(.schedule-title:contains("Keynote")) .schedule-title {
+      color: var(--color-primary-dark);
+    }
+    
+    .schedule-item:has(.schedule-title:contains("Workshop")) .schedule-title,
+    .schedule-item:has(.schedule-title:contains("Hands-on")) .schedule-title {
+      color: var(--color-secondary-dark);
+    }
+    
+    .schedule-item:has(.schedule-title:contains("Breakfast")) .schedule-title,
+    .schedule-item:has(.schedule-title:contains("Lunch")) .schedule-title,
+    .schedule-item:has(.schedule-title:contains("Break")) .schedule-title,
+    .schedule-item:has(.schedule-title:contains("Registration")) .schedule-title {
+      color: var(--color-accent-dark);
+    }
+    
+    .schedule-location {
+      font-size: 0.95rem;
+      color: var(--color-text-light);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .schedule-location::before {
+      content: "📍";
+      margin-right: 0.5rem;
+    }
+    
+    .schedule-description {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      color: var(--color-text);
+    }
+    
+    .schedule-speakers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .schedule-speaker {
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0.75rem;
+      background-color: var(--color-primary-light);
+      border-radius: 4px;
+    }
+    
+    .schedule-speaker::before {
+      content: "👤";
+      margin-right: 0.5rem;
+    }
+    
+    .speaker-company {
+      color: var(--color-primary-dark);
+      margin-left: 0.25rem;
+      font-weight: 600;
+    }
+    
+    .schedule-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    /* Tags with alternating colors from the palette */
+    .schedule-tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    
+    .schedule-tag:nth-child(3n+1) {
+      background-color: var(--color-primary-light);
+      color: var(--color-primary-dark);
+    }
+    
+    .schedule-tag:nth-child(3n+2) {
+      background-color: var(--color-secondary-light);
+      color: var(--color-secondary-dark);
+    }
+    
+    .schedule-tag:nth-child(3n+3) {
+      background-color: var(--color-accent-light);
+      color: var(--color-accent-dark);
+    }
+    
+    .schedule-tag:hover {
+      filter: brightness(0.95);
+      transform: translateY(-2px);
+    }
+    
+    /* Day section styling */
+    .day-schedule {
+      padding: 2rem;
+      margin-bottom: 2rem;
+      scroll-margin-top: 2rem;
+      border-radius: var(--border-radius-md);
+    }
+    
+    /* Apply different background colors to each day section */
+    #day1 {
+      background-color: var(--color-primary-light);
+      background-image: linear-gradient(to bottom right, var(--color-primary-light), white);
+    }
+    
+    #day2 {
+      background-color: var(--color-secondary-light);
+      background-image: linear-gradient(to bottom right, var(--color-secondary-light), white);
+    }
+    
+    #day3 {
+      background-color: var(--color-accent-light);
+      background-image: linear-gradient(to bottom right, var(--color-accent-light), white);
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .day-links {
+        flex-direction: column;
+        padding: 0.5rem;
+      }
+      
+      .day-link {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+      
+      .schedule-item {
+        flex-direction: column;
+      }
+      
+      .schedule-time {
+        width: 100%;
+        padding: 1rem;
+        flex-direction: row;
+        justify-content: center;
+      }
+      
+      .day-heading {
+        font-size: 1.5rem;
+      }
+      
+      .day-schedule {
+        padding: 1.5rem 1rem;
+      }
+    }
+  </style>
+
+<script>
+  // Simple script to highlight the active day based on URL hash
+  function updateActiveDay() {
+    const hash = window.location.hash || '#day1';
+    const dayLinks = document.querySelectorAll('.day-link');
+    
+    dayLinks.forEach(link => {
+      if (link.getAttribute('href') === hash) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
+  
+  // Run on page load
+  window.addEventListener('DOMContentLoaded', updateActiveDay);
+  
+  // Run when hash changes
+  window.addEventListener('hashchange', updateActiveDay);
+</script>

@@ -1,0 +1,496 @@
+---
+// src/pages/speakers/industry-leaders.astro
+import PageLayout from '../../layouts/pagelayout.astro';
+import SpeakerCard from '../../components/speakercard.astro';
+
+// Speaker categories
+const categories = [
+  { id: 'all', name: 'All Speakers', link: '/speakers/' },
+  { id: 'industry', name: 'Industry Leaders', link: '/speakers/industry-leaders/' },
+  { id: 'core', name: 'Core Engineers', link: '/speakers/core-engineers/' },
+];
+
+// Industry leader speakers data (filtered from the main data)
+const industryLeaders = [
+  {
+    name: 'Alex Johnson',
+    role: 'Chief Technology Officer',
+    company: 'TechInnovate',
+    bio: 'Alex leads technology strategy at TechInnovate, focusing on distributed systems and cloud architecture. Previously, he led engineering teams at major tech companies and has contributed to several open-source projects.',
+    image: '/public/speaker1.jpg',
+    tags: ['Cloud Architecture', 'Leadership', 'Distributed Systems'],
+    social: {
+      twitter: 'https://twitter.com/alexjohnson',
+      linkedin: 'https://linkedin.com/in/alexjohnson',
+      github: 'https://github.com/alexjohnson'
+    },
+    slug: 'alex-johnson'
+  },
+  {
+    name: 'Marcus Williams',
+    role: 'Research Director',
+    company: 'Future Labs',
+    bio: 'Marcus leads research initiatives in quantum computing and blockchain technologies. His work bridges theoretical computer science with practical engineering implementations, making complex concepts accessible to engineering teams.',
+    image: '/public/speaker3.jpg',
+    tags: ['Quantum Computing', 'Blockchain', 'Research'],
+    social: {
+      linkedin: 'https://linkedin.com/in/marcuswilliams'
+    },
+    slug: 'marcus-williams'
+  },
+  {
+    name: 'David Kim',
+    role: 'VP Engineering',
+    company: 'StreamScale',
+    bio: 'David oversees engineering at StreamScale, where they build scalable streaming data platforms. He has expertise in microservices architecture and distributed systems, and has led teams through multiple hypergrowth phases.',
+    image: '/public/speaker5.png',
+    tags: ['Microservices', 'Scaling', 'Data Engineering'],
+    social: {
+      linkedin: 'https://linkedin.com/in/davidkim',
+      github: 'https://github.com/davidkim'
+    },
+    slug: 'david-kim'
+  },
+  {
+    name: 'Sophia Ramirez',
+    role: 'CTO',
+    company: 'GlobalTech',
+    bio: 'Sophia is responsible for technical strategy and innovation at GlobalTech. She has led the development of systems that serve billions of users and pioneered approaches to global-scale infrastructure management.',
+    image: '/public/speaker9.jpg',
+    tags: ['Global Scale', 'Leadership', 'Infrastructure'],
+    social: {
+      twitter: 'https://twitter.com/sophiaramirez',
+      linkedin: 'https://linkedin.com/in/sophiaramirez'
+    },
+    slug: 'sophia-ramirez'
+  },
+  {
+    name: 'Michael Zhang',
+    role: 'Head of Cloud Architecture',
+    company: 'CloudNet',
+    bio: 'Michael leads the cloud architecture team at CloudNet, defining patterns and practices for cloud-native applications. He specializes in container orchestration, service mesh, and cloud infrastructure.',
+    image: '/public/speaker10.jpg',
+    tags: ['Cloud Native', 'Kubernetes', 'Service Mesh'],
+    social: {
+      github: 'https://github.com/michaelzhang',
+      linkedin: 'https://linkedin.com/in/michaelzhang'
+    },
+    slug: 'michael-zhang'
+  },
+  {
+    name: 'Lisa Wang',
+    role: 'Director of Analytics',
+    company: 'Analytics Platform',
+    bio: 'Lisa directs the analytics division at Analytics Platform, focusing on scalable real-time analytics systems. She brings expertise in data architecture and has pioneered several approaches to large-scale data processing.',
+    image: '/public/speaker11.jpg',
+    tags: ['Analytics', 'Data Architecture', 'Real-time Systems'],
+    social: {
+      twitter: 'https://twitter.com/lisawang',
+      linkedin: 'https://linkedin.com/in/lisawang'
+    },
+    slug: 'lisa-wang'
+  }
+];
+---
+
+<PageLayout
+  title="Industry Leaders"
+  description="Meet the industry leaders speaking at CoreCon 2025"
+  heroTitle="Industry Leaders"
+  heroSubtitle="Learn from executives and technical directors who are shaping the future of technology"
+>
+  <div class="speakers-container">
+    <div class="speakers-intro">
+      <p>Our industry leaders track features CTOs, VPs of Engineering, Research Directors, and other technology executives who bring strategic perspective and extensive experience to CoreCon. These leaders will share insights on technology strategy, organizational challenges, and emerging trends that are shaping the industry.</p>
+    </div>
+    
+    <!-- Category Links -->
+    <div class="category-links">
+      {categories.map(category => (
+        <a 
+          href={category.link} 
+          class={`category-link ${category.id === 'industry' ? 'active' : ''}`}
+        >
+          {category.name}
+        </a>
+      ))}
+    </div>
+    
+    <!-- Speakers Grid -->
+    <div class="speakers-grid">
+      {industryLeaders.map(speaker => (
+        <SpeakerCard {...speaker} />
+      ))}
+    </div>
+    
+    <!-- Topics Section -->
+    <div class="topics-section">
+      <h2>Industry Leader Topics</h2>
+      <div class="topics-grid">
+        <div class="topic-card">
+          <h3>Technology Strategy</h3>
+          <p>Aligning technology choices with business objectives and navigating the complex landscape of options and trade-offs.</p>
+        </div>
+        <div class="topic-card">
+          <h3>Scaling Engineering Organizations</h3>
+          <p>Building and maintaining effective engineering teams through periods of growth and technology transformation.</p>
+        </div>
+        <div class="topic-card">
+          <h3>Technical Leadership</h3>
+          <p>Balancing technical depth with leadership responsibilities and guiding technical direction at scale.</p>
+        </div>
+        <div class="topic-card">
+          <h3>Emerging Technologies</h3>
+          <p>Evaluating and adopting emerging technologies with a strategic perspective on business impact and implementation challenges.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .speakers-container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+  }
+  
+  .speakers-intro {
+    margin-bottom: 3rem;
+    background-color: var(--color-primary-light);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    border-left: 4px solid var(--color-primary);
+  }
+  
+  .speakers-intro p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+    color: var(--color-text-dark);
+  }
+  
+  /* Category Links */
+  .category-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+    background-color: var(--color-secondary-light);
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+  }
+  
+  .category-link {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .category-link:hover {
+    background-color: var(--color-accent-light);
+    color: var(--color-accent-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .category-link.active {
+    background-color: var(--color-secondary);
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* Speakers Grid */
+  .speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  
+  /* SpeakerCard component styling enhancements */
+  .speakers-grid :global(.speaker-card) {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 4px solid var(--color-primary);
+  }
+  
+  .speakers-grid :global(.speaker-card:hover) {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .speakers-grid :global(.speaker-image) {
+    position: relative;
+    overflow: hidden;
+    height: 250px;
+  }
+  
+  .speakers-grid :global(.speaker-image img) {
+    transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .speakers-grid :global(.speaker-card:hover .speaker-image img) {
+    transform: scale(1.1);
+  }
+  
+  .speakers-grid :global(.speaker-image::after) {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  }
+  
+  .speakers-grid :global(.speaker-content) {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .speakers-grid :global(.speaker-name) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: var(--color-primary-dark);
+  }
+  
+  .speakers-grid :global(.speaker-role) {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  
+  .speakers-grid :global(.speaker-company) {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+  }
+  
+  .speakers-grid :global(.speaker-bio) {
+    color: var(--color-text);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+  
+  .speakers-grid :global(.speaker-tags) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .speakers-grid :global(.speaker-tag) {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  /* Alternate tag colors */
+  .speakers-grid :global(.speaker-tag:nth-child(3n+1)) {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+  }
+  
+  .speakers-grid :global(.speaker-tag:nth-child(3n+2)) {
+    background-color: var(--color-secondary-light);
+    color: var(--color-secondary-dark);
+  }
+  
+  .speakers-grid :global(.speaker-tag:nth-child(3n+3)) {
+    background-color: var(--color-accent-light);
+    color: var(--color-accent-dark);
+  }
+  
+  .speakers-grid :global(.speaker-tag:hover) {
+    filter: brightness(0.95);
+    transform: translateY(-2px);
+  }
+  
+  .speakers-grid :global(.speaker-social) {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+  
+  .speakers-grid :global(.social-link) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background-color: var(--color-background-alt);
+  }
+  
+  .speakers-grid :global(.social-link:hover) {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .speakers-grid :global(.social-link[data-platform="twitter"]:hover) {
+    background-color: #1DA1F2;
+    color: white;
+  }
+  
+  .speakers-grid :global(.social-link[data-platform="linkedin"]:hover) {
+    background-color: #0A66C2;
+    color: white;
+  }
+  
+  .speakers-grid :global(.social-link[data-platform="github"]:hover) {
+    background-color: #24292e;
+    color: white;
+  }
+  
+  /* Topics Section */
+  .topics-section {
+    margin-bottom: 3rem;
+    background-color: var(--color-accent-light);
+    padding: 2.5rem;
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .topics-section h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--color-accent-dark);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .topics-section h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-accent);
+    border-radius: 3px;
+  }
+  
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+  }
+  
+  .topic-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-top: 4px solid;
+  }
+  
+  .topic-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Color-code each topic card */
+  .topic-card:nth-child(4n+1) {
+    border-top-color: var(--color-primary);
+  }
+  
+  .topic-card:nth-child(4n+2) {
+    border-top-color: var(--color-secondary);
+  }
+  
+  .topic-card:nth-child(4n+3) {
+    border-top-color: var(--color-accent);
+  }
+  
+  .topic-card:nth-child(4n+4) {
+    border-top-color: var(--color-success);
+  }
+  
+  .topic-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    position: relative;
+  }
+  
+  /* Match heading color to card border color */
+  .topic-card:nth-child(4n+1) h3 {
+    color: var(--color-primary-dark);
+  }
+  
+  .topic-card:nth-child(4n+2) h3 {
+    color: var(--color-secondary-dark);
+  }
+  
+  .topic-card:nth-child(4n+3) h3 {
+    color: var(--color-accent-dark);
+  }
+  
+  .topic-card:nth-child(4n+4) h3 {
+    color: var(--color-success);
+  }
+  
+  .topic-card p {
+    color: var(--color-text);
+    line-height: 1.6;
+    margin: 0;
+  }
+  
+  /* Responsive Styles */
+  @media (min-width: 640px) {
+    .speakers-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .topics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .speakers-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .category-links {
+      flex-direction: column;
+    }
+    
+    .category-link {
+      width: 100%;
+      text-align: center;
+    }
+    
+    .topics-section {
+      padding: 2rem 1.5rem;
+    }
+  }
+</style>

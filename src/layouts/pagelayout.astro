@@ -1,0 +1,102 @@
+---
+
+import Layout from './layout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroImage?: string;
+  showHero?: boolean;
+}
+
+const { 
+  title, 
+  description, 
+  heroTitle, 
+  heroSubtitle, 
+  heroImage = "/public/hero-bg.jpg",
+  showHero = true
+} = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  {showHero && (
+    <div class="page-hero" style={`background-image: url(${heroImage})`}>
+      <div class="container">
+        <h1>{heroTitle || title}</h1>
+        {heroSubtitle && <p class="hero-subtitle">{heroSubtitle}</p>}
+      </div>
+    </div>
+  )}
+  
+  <div class="container page-content">
+    <slot />
+  </div>
+</Layout>
+
+<style>
+  .page-hero {
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 6rem 2rem;
+    position: relative;
+  }
+
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+    z-index: 1;
+  }
+
+  .page-hero .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .hero-subtitle {
+    font-size: 1.5rem;
+    max-width: 700px;
+    opacity: 0.9;
+  }
+
+  .page-content {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .page-hero {
+      padding: 4rem 1rem;
+    }
+
+    .page-hero h1 {
+      font-size: 2.25rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+    }
+
+    .page-content {
+      padding: 3rem 1rem;
+    }
+  }
+</style>

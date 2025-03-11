@@ -1,0 +1,423 @@
+---
+// src/pages/register/registration-form.astro
+import PageLayout from '../../layouts/pagelayout.astro';
+
+// Very simple ticket options
+const ticketOptions = [
+  { value: "standard-pass", label: "Standard Pass - $799" },
+  { value: "premium-pass", label: "Premium Pass - $1,299" },
+  { value: "workshop-pass", label: "Workshop Pass - $499" }
+];
+---
+
+<PageLayout
+  title="Registration Form"
+  description="Register for CoreCon 2025"
+  heroTitle="Registration Form"
+  heroSubtitle="Complete your registration for CoreCon 2025"
+>
+  <div class="form-container">
+    <form class="registration-form" action="/api/register" method="post">
+      <!-- Ticket Selection -->
+      <div class="form-section">
+        <h2>Select Your Ticket</h2>
+        
+        <div class="ticket-options">
+          {ticketOptions.map(ticket => (
+            <label class="ticket-option">
+              <input type="radio" name="ticketType" value={ticket.value} required>
+              <div class="ticket-content">
+                <span class="ticket-name">{ticket.label}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Contact Info -->
+      <div class="form-section">
+        <h2>Your Information</h2>
+        
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="company">Company/Organization</label>
+          <input type="text" id="company" name="company">
+        </div>
+      </div>
+      
+      <!-- Basic Preferences -->
+      <div class="form-section">
+        <h2>Basic Preferences</h2>
+        
+        <div class="form-group">
+          <label for="dietary">Dietary Requirements</label>
+          <select id="dietary" name="dietary">
+            <option value="none" selected>No special requirements</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+            <option value="gluten-free">Gluten-free</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="mailingList" checked>
+            <span>I'd like to receive updates about CoreCon</span>
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" name="codeOfConduct" required>
+            <span>I agree to the <a href="/code-of-conduct">Code of Conduct</a> *</span>
+          </label>
+        </div>
+      </div>
+      
+      <!-- Submit Button -->
+      <div class="form-submit">
+        <button type="submit">Complete Registration</button>
+        <p class="submit-note">You'll be directed to payment after submission</p>
+      </div>
+    </form>
+  </div>
+</PageLayout>
+
+<script>
+  // Minimal script to pre-select ticket from URL
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ticketParam = urlParams.get('ticket');
+    
+    if (ticketParam) {
+      // Use type assertion to tell TypeScript this is an HTMLInputElement
+      const ticketInput = document.querySelector('input[value="' + ticketParam + '"]') as HTMLInputElement;
+      if (ticketInput) {
+        ticketInput.checked = true;
+      }
+    }
+  });
+</script>
+
+<style>
+  .form-container {
+    max-width: 600px;
+    margin: 0 auto 3rem auto;
+    padding: 0 1rem;
+  }
+  
+  /* Form sections */
+  .form-section {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--color-primary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .form-section:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Color-code each section */
+  .form-section:nth-child(1) {
+    border-left-color: var(--color-primary);
+  }
+  
+  .form-section:nth-child(2) {
+    border-left-color: var(--color-secondary);
+  }
+  
+  .form-section:nth-child(3) {
+    border-left-color: var(--color-accent);
+  }
+  
+  .form-section h2 {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--color-border);
+    position: relative;
+    padding-left: 1.75rem;
+  }
+  
+  /* Icons for section headings */
+  .form-section:nth-child(1) h2 {
+    color: var(--color-primary-dark);
+    border-bottom-color: var(--color-primary-light);
+  }
+  
+  .form-section:nth-child(1) h2::before {
+    content: "🎟️";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .form-section:nth-child(2) h2 {
+    color: var(--color-secondary-dark);
+    border-bottom-color: var(--color-secondary-light);
+  }
+  
+  .form-section:nth-child(2) h2::before {
+    content: "👤";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .form-section:nth-child(3) h2 {
+    color: var(--color-accent-dark);
+    border-bottom-color: var(--color-accent-light);
+  }
+  
+  .form-section:nth-child(3) h2::before {
+    content: "⚙️";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  /* Ticket selection */
+  .ticket-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .ticket-option {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: var(--color-background-alt);
+  }
+  
+  .ticket-option:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Style different ticket options */
+  .ticket-option:nth-child(1):hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+  }
+  
+  .ticket-option:nth-child(2):hover {
+    border-color: var(--color-secondary);
+    background-color: var(--color-secondary-light);
+  }
+  
+  .ticket-option:nth-child(3):hover {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-light);
+  }
+  
+  .ticket-option input {
+    margin-top: 0.25rem;
+    margin-right: 0.75rem;
+    accent-color: var(--color-primary);
+  }
+  
+  .ticket-option:nth-child(1) input {
+    accent-color: var(--color-primary);
+  }
+  
+  .ticket-option:nth-child(2) input {
+    accent-color: var(--color-secondary);
+  }
+  
+  .ticket-option:nth-child(3) input {
+    accent-color: var(--color-accent);
+  }
+  
+  .ticket-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ticket-name {
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  
+  .ticket-option:nth-child(1):hover .ticket-name {
+    color: var(--color-primary-dark);
+  }
+  
+  .ticket-option:nth-child(2):hover .ticket-name {
+    color: var(--color-secondary-dark);
+  }
+  
+  .ticket-option:nth-child(3):hover .ticket-name {
+    color: var(--color-accent-dark);
+  }
+  
+  /* Form controls */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-dark);
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: var(--color-background-alt);
+  }
+  
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-light);
+    background-color: white;
+  }
+  
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+  }
+  
+  .checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: var(--border-radius-sm);
+    transition: background-color 0.3s ease;
+  }
+  
+  .checkbox-label:hover {
+    background-color: var(--color-background-alt);
+  }
+  
+  .checkbox-label input {
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+    accent-color: var(--color-primary);
+  }
+  
+  .checkbox-label span {
+    line-height: 1.5;
+  }
+  
+  .checkbox-label a {
+    color: var(--color-primary);
+    font-weight: 600;
+    transition: color 0.3s ease;
+    text-decoration: underline;
+  }
+  
+  .checkbox-label a:hover {
+    color: var(--color-primary-dark);
+  }
+  
+  /* Submit button */
+  .form-submit {
+    text-align: center;
+    margin-top: 2.5rem;
+    position: relative;
+  }
+  
+  .form-submit::before {
+    content: "";
+    position: absolute;
+    top: -1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 1px;
+    background: var(--gradient-primary-to-secondary);
+  }
+  
+  .form-submit button {
+    background: var(--gradient-primary-to-secondary);
+    color: white;
+    border: none;
+    padding: 0.85rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .form-submit button:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    filter: brightness(1.05);
+  }
+  
+  .form-submit button:active {
+    transform: translateY(-1px);
+  }
+  
+  .submit-note {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    margin-top: 0.75rem;
+  }
+  
+  /* Required field indicator */
+  label[for]::after {
+    content: attr(for);
+    display: none;
+  }
+  
+  label[for="name"]::after,
+  label[for="email"]::after {
+    content: " *";
+    color: var(--color-error);
+    display: inline;
+  }
+  
+  /* Focus and accessibility */
+  input:focus-visible,
+  select:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+</style>

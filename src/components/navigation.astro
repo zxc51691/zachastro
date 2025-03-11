@@ -1,0 +1,239 @@
+---
+
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { name: 'Home', path: '/', exact: true },
+  { name: 'Schedule', path: '/schedule/' },
+  { 
+    name: 'Speakers', 
+    path: '/speakers/',
+    submenu: [
+      { name: 'All Speakers', path: '/speakers/' },
+      { name: 'Industry Leaders', path: '/speakers/industry-leaders/' },
+      { name: 'Core Engineers', path: '/speakers/core-engineers/' }
+    ]
+  },
+  { 
+    name: 'Tech Labs', 
+    path: '/tech-labs/',
+    submenu: [
+      { name: 'Overview', path: '/tech-labs/' },
+      { name: 'Hands-on Labs', path: '/tech-labs/hands-on-labs/' },
+      { name: 'Live Demos', path: '/tech-labs/live-demos/' }
+    ]
+  },
+  { name: 'Register', path: '/register/' },
+  { name: 'About', path: '/about/' }
+];
+
+const isActive = (item: { path: string, exact?: boolean }) => {
+  if (item.exact) {
+    return currentPath === item.path;
+  }
+  return currentPath.startsWith(item.path);
+};
+---
+
+<nav class="site-nav">
+  <ul class="nav-menu">
+    {navItems.map(item => (
+      <li class={`nav-item ${isActive(item) ? 'active' : ''} ${item.submenu ? 'has-submenu' : ''}`}>
+        <a href={item.path}>{item.name}</a>
+        {item.submenu && (
+          <ul class="submenu">
+            {item.submenu.map(subItem => (
+              <li class={isActive(subItem) ? 'active' : ''}>
+                <a href={subItem.path}>{subItem.name}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))}
+    <li class="nav-item mobile-only">
+      <a href="/register" class="btn btn-primary btn-block">Register Now</a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .site-nav {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1.5rem;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-item > a {
+    display: block;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    padding: 0.5rem 0;
+  }
+
+  .nav-item:hover > a,
+  .nav-item.active > a {
+    color: var(--color-primary);
+  }
+
+  .nav-item.active > a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-primary);
+  }
+
+  .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 220px;
+    background-color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    border-radius: 6px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 10;
+    list-style: none;
+  }
+
+  .nav-item.has-submenu:hover .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .submenu li {
+    margin-bottom: 0.5rem;
+  }
+
+  .submenu li:last-child {
+    margin-bottom: 0;
+  }
+
+  .submenu a {
+    display: block;
+    padding: 0.5rem 0;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: normal;
+  }
+
+  .submenu li:hover > a,
+  .submenu li.active > a {
+    color: var(--color-primary);
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .site-nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--color-background);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 0;
+    }
+
+    .nav-menu {
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu.active {
+      max-height: 100vh;
+      opacity: 1;
+      visibility: visible;
+      padding: 1rem 0;
+      overflow-y: auto;
+    }
+
+    .mobile-only {
+      display: block;
+      margin-top: 1rem;
+    }
+
+    .nav-item {
+      width: 100%;
+      padding: 0 1rem;
+    }
+
+    .nav-item > a {
+      padding: 0.75rem 0;
+      width: 100%;
+    }
+
+    .nav-item.active > a::after {
+      display: none;
+    }
+
+    .submenu {
+      position: static;
+      box-shadow: none;
+      width: 100%;
+      background: transparent;
+      padding: 0 0 0.5rem 1rem;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      display: none;
+    }
+
+    .nav-item.has-submenu.active .submenu {
+      display: block;
+    }
+
+    .submenu a {
+      padding: 0.5rem 0;
+    }
+
+    .btn-block {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  // Handle submenu toggles on mobile
+  const subMenuTriggers = document.querySelectorAll('.has-submenu > a');
+  
+  subMenuTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        const parent = trigger.parentElement;
+        parent?.classList.toggle('active');
+      }
+    });
+  });
+</script>

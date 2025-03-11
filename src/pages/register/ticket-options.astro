@@ -1,0 +1,915 @@
+---
+// src/pages/register/ticket-options.astro
+import PageLayout from '../../layouts/pagelayout.astro';
+import Button from '../../components/button.astro';
+
+// Detailed ticket information
+const ticketDetails = [
+  {
+    name: "Standard Pass",
+    price: "$799",
+    earlyBird: "$699",
+    slug: "standard-pass",
+    description: "The Standard Pass gives you access to all main conference sessions, networking events, and basic amenities.",
+    idealFor: "Developers, engineers, and tech professionals looking to learn and network.",
+    features: [
+      "Access to all keynote sessions",
+      "Access to all technical talks",
+      "Conference materials and swag",
+      "Coffee breaks and lunches",
+      "Access to networking events",
+      "30-day access to session recordings"
+    ],
+    limitations: [
+      "Limited access to hands-on workshops (space permitting)",
+      "No access to VIP events",
+      "Standard seating in sessions"
+    ]
+  },
+  {
+    name: "Premium Pass",
+    price: "$1,299",
+    earlyBird: "$1,099",
+    slug: "premium-pass",
+    description: "The Premium Pass includes everything in the Standard Pass plus priority access to workshops and exclusive networking opportunities.",
+    idealFor: "Team leaders, managers, and professionals who want the complete conference experience.",
+    features: [
+      "All Standard Pass benefits",
+      "Guaranteed spots in up to 3 hands-on workshops",
+      "Priority seating in all sessions",
+      "Access to speaker meet-and-greets",
+      "Exclusive networking lounge access",
+      "Premium conference swag",
+      "Full year access to session recordings",
+      "Digital certificate of attendance"
+    ],
+    limitations: []
+  },
+  {
+    name: "Workshop Pass",
+    price: "$499",
+    earlyBird: "$399",
+    slug: "workshop-pass",
+    description: "The Workshop Pass focuses on hands-on learning experiences. Ideal for those primarily interested in practical workshops.",
+    idealFor: "Practitioners focused on skill development and hands-on learning.",
+    features: [
+      "Access to all hands-on workshops",
+      "Workshop materials and resources",
+      "Coffee breaks and lunches on workshop days",
+      "Certificate of completion for workshops",
+      "30-day access to workshop materials"
+    ],
+    limitations: [
+      "No access to main conference sessions",
+      "No access to networking events",
+      "Limited to workshop areas only"
+    ]
+  }
+];
+
+// Group rates
+const groupRates = [
+  { group: "3-5 attendees", discount: "15% off" },
+  { group: "6-10 attendees", discount: "20% off" },
+  { group: "11+ attendees", discount: "Contact us for custom pricing" }
+];
+
+// Special rates
+const specialRates = [
+  { type: "Academic/Student", discount: "50% off Standard Pass", eligibility: "Valid student ID required" },
+  { type: "Non-profit", discount: "30% off all passes", eligibility: "Valid non-profit documentation required" },
+  { type: "Early Career", discount: "25% off Standard Pass", eligibility: "Professionals with less than 2 years experience" }
+];
+---
+
+<PageLayout
+  title="Ticket Options"
+  description="Choose the right ticket option for CoreCon 2025"
+  heroTitle="Choose Your Ticket"
+  heroSubtitle="Find the right ticket option for your CoreCon 2025 experience"
+>
+  <div class="options-container">
+    <!-- Ticket options intro -->
+    <div class="options-intro">
+      <p>CoreCon 2025 offers several ticket options to best suit your needs and goals. Compare the features below and choose the option that's right for you.</p>
+      <p class="early-bird-note">🕒 Early bird pricing available until March 31, 2025</p>
+    </div>
+    
+    <!-- Ticket comparison cards -->
+    <div class="tickets-grid">
+      {ticketDetails.map(ticket => (
+        <div class="ticket-card">
+          <div class="ticket-header">
+            <h2>{ticket.name}</h2>
+            <div class="price-container">
+              <div class="current-price">{ticket.price}</div>
+              <div class="early-bird">Early Bird: {ticket.earlyBird}</div>
+            </div>
+          </div>
+          
+          <div class="ticket-body">
+            <p class="ticket-description">{ticket.description}</p>
+            
+            <div class="ideal-for">
+              <h3>Ideal for:</h3>
+              <p>{ticket.idealFor}</p>
+            </div>
+            
+            <div class="features-list">
+              <h3>What's included:</h3>
+              <ul>
+                {ticket.features.map(feature => (
+                  <li>{feature}</li>
+                ))}
+              </ul>
+            </div>
+            
+            {ticket.limitations.length > 0 && (
+              <div class="limitations-list">
+                <h3>Limitations:</h3>
+                <ul>
+                  {ticket.limitations.map(limitation => (
+                    <li>{limitation}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          
+          <div class="ticket-actions">
+            <a href={`/register/registration-form?ticket=${ticket.slug}`} class="select-button">
+              Select {ticket.name}
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Group rates -->
+    <div class="group-rates">
+      <h2>Group Registration Rates</h2>
+      <p>Save when registering multiple team members. Group discounts apply to Standard and Premium passes.</p>
+      
+      <div class="rates-table">
+        <div class="table-header">
+          <div class="header-cell">Group Size</div>
+          <div class="header-cell">Discount</div>
+        </div>
+        
+        {groupRates.map(rate => (
+          <div class="table-row">
+            <div class="row-cell">{rate.group}</div>
+            <div class="row-cell">{rate.discount}</div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="group-cta">
+        <Button href="/register/group-registration" variant="primary">Register a Group</Button>
+      </div>
+    </div>
+    
+    <!-- Special rates -->
+    <div class="special-rates">
+      <h2>Special Rates</h2>
+      <p>CoreCon is committed to making the conference accessible to diverse audiences. The following discounts are available for qualified attendees:</p>
+      
+      <div class="rates-cards">
+        {specialRates.map(rate => (
+          <div class="rate-card">
+            <h3>{rate.type}</h3>
+            <div class="discount">{rate.discount}</div>
+            <div class="eligibility">{rate.eligibility}</div>
+          </div>
+        ))}
+      </div>
+      
+      <p class="special-note">To apply for special rates, please email <a href="mailto:registration@corecon.tech">registration@corecon.tech</a> with supporting documentation.</p>
+    </div>
+    
+    <!-- FAQ -->
+    <div class="tickets-faq">
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-item">
+        <h3>What happens if I need to cancel?</h3>
+        <p>Registrations can be cancelled with a full refund until April 15, 2025. Between April 16 and May 1, cancellations receive a 50% refund. After May 1, no refunds will be issued, but registrations can be transferred to another person.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>Can I upgrade my ticket later?</h3>
+        <p>Yes, you can upgrade from a Standard to Premium Pass at any time before the conference by paying the difference in price. Contact us at registration@corecon.tech to arrange an upgrade.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>What payment methods are accepted?</h3>
+        <p>We accept all major credit cards (Visa, MasterCard, American Express, Discover), PayPal, and bank transfers for group registrations.</p>
+      </div>
+    </div>
+    
+    <!-- Final CTA -->
+    <div class="options-cta">
+      <h2>Ready to join us at CoreCon 2025?</h2>
+      <p>Select your preferred ticket option and complete your registration today.</p>
+      <Button href="/register/registration-form" variant="primary">Proceed to Registration</Button>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .options-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  /* Intro section */
+  .options-intro {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 2rem;
+    background-color: var(--color-secondary-light);
+    border-radius: var(--border-radius-lg);
+    border-left: 4px solid var(--color-secondary);
+  }
+  
+  .options-intro p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: var(--color-text-dark);
+  }
+  
+  .early-bird-note {
+    font-weight: 600;
+    color: var(--color-accent-dark);
+    font-size: 1.1rem !important;
+    background-color: var(--color-accent-light);
+    padding: 0.75rem;
+    border-radius: var(--border-radius-md);
+    display: inline-block;
+    margin-top: 1rem;
+  }
+  
+  /* Ticket comparison grid */
+  .tickets-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+  
+  .ticket-card {
+    background-color: white;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 5px solid;
+  }
+  
+  .ticket-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  /* Color-code each ticket type */
+  .ticket-card:nth-child(1) {
+    border-top-color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) {
+    border-top-color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) {
+    border-top-color: var(--color-accent);
+  }
+  
+  .ticket-header {
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .ticket-card:nth-child(1) .ticket-header {
+    background-color: var(--color-primary-light);
+  }
+  
+  .ticket-card:nth-child(2) .ticket-header {
+    background-color: var(--color-secondary-light);
+  }
+  
+  .ticket-card:nth-child(3) .ticket-header {
+    background-color: var(--color-accent-light);
+  }
+  
+  .ticket-header h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.75rem;
+  }
+  
+  .ticket-card:nth-child(1) .ticket-header h2 {
+    color: var(--color-primary-dark);
+  }
+  
+  .ticket-card:nth-child(2) .ticket-header h2 {
+    color: var(--color-secondary-dark);
+  }
+  
+  .ticket-card:nth-child(3) .ticket-header h2 {
+    color: var(--color-accent-dark);
+  }
+  
+  .price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .current-price {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  
+  .ticket-card:nth-child(1) .current-price {
+    color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) .current-price {
+    color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) .current-price {
+    color: var(--color-accent);
+  }
+  
+  .early-bird {
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    background-color: white;
+  }
+  
+  .ticket-card:nth-child(1) .early-bird {
+    color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) .early-bird {
+    color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) .early-bird {
+    color: var(--color-accent);
+  }
+  
+  .ticket-body {
+    padding: 2rem;
+    flex-grow: 1;
+  }
+  
+  .ticket-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: var(--color-text);
+  }
+  
+  .ideal-for {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+  }
+  
+  .ticket-card:nth-child(1) .ideal-for {
+    background-color: var(--color-primary-light);
+  }
+  
+  .ticket-card:nth-child(2) .ideal-for {
+    background-color: var(--color-secondary-light);
+  }
+  
+  .ticket-card:nth-child(3) .ideal-for {
+    background-color: var(--color-accent-light);
+  }
+  
+  .ideal-for h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 1.75rem;
+  }
+  
+  .ideal-for h3::before {
+    content: "👥";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .ticket-card:nth-child(1) .ideal-for h3 {
+    color: var(--color-primary-dark);
+  }
+  
+  .ticket-card:nth-child(2) .ideal-for h3 {
+    color: var(--color-secondary-dark);
+  }
+  
+  .ticket-card:nth-child(3) .ideal-for h3 {
+    color: var(--color-accent-dark);
+  }
+  
+  .ideal-for p {
+    color: var(--color-text-dark);
+  }
+  
+  .features-list,
+  .limitations-list {
+    margin-bottom: 2rem;
+  }
+  
+  .features-list h3,
+  .limitations-list h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 1.75rem;
+  }
+  
+  .features-list h3::before {
+    content: "✅";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1rem;
+  }
+  
+  .limitations-list h3::before {
+    content: "ℹ️";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1rem;
+  }
+  
+  .ticket-card:nth-child(1) .features-list h3,
+  .ticket-card:nth-child(1) .limitations-list h3 {
+    color: var(--color-primary-dark);
+  }
+  
+  .ticket-card:nth-child(2) .features-list h3,
+  .ticket-card:nth-child(2) .limitations-list h3 {
+    color: var(--color-secondary-dark);
+  }
+  
+  .ticket-card:nth-child(3) .features-list h3,
+  .ticket-card:nth-child(3) .limitations-list h3 {
+    color: var(--color-accent-dark);
+  }
+  
+  .features-list ul,
+  .limitations-list ul {
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+  }
+  
+  .features-list li,
+  .limitations-list li {
+    margin-bottom: 0.75rem;
+    position: relative;
+    color: var(--color-text);
+  }
+  
+  .features-list li:last-child,
+  .limitations-list li:last-child {
+    margin-bottom: 0;
+  }
+  
+  .features-list li::before {
+    content: "✓";
+    position: absolute;
+    left: -1.5rem;
+    font-weight: bold;
+  }
+  
+  .ticket-card:nth-child(1) .features-list li::before {
+    color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) .features-list li::before {
+    color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) .features-list li::before {
+    color: var(--color-accent);
+  }
+  
+  .limitations-list li::before {
+    content: "•";
+    position: absolute;
+    left: -1.5rem;
+    font-weight: bold;
+    color: var(--color-text-light);
+  }
+  
+  .ticket-actions {
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--color-background-alt);
+  }
+  
+  .select-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius-md);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: white;
+  }
+  
+  .ticket-card:nth-child(1) .select-button {
+    background-color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) .select-button {
+    background-color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) .select-button {
+    background-color: var(--color-accent);
+  }
+  
+  .ticket-card:nth-child(1) .select-button:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .ticket-card:nth-child(2) .select-button:hover {
+    background-color: var(--color-secondary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .ticket-card:nth-child(3) .select-button:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* Group rates */
+  .group-rates {
+    background-color: var(--color-primary-light);
+    border-radius: var(--border-radius-lg);
+    padding: 3rem;
+    margin-bottom: 5rem;
+    text-align: center;
+  }
+  
+  .group-rates h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--color-primary-dark);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .group-rates h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 3px;
+  }
+  
+  .group-rates > p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: var(--color-text-dark);
+  }
+  
+  .rates-table {
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--color-primary-dark);
+    color: white;
+    padding: 1rem;
+    font-weight: 600;
+  }
+  
+  .table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem;
+    background-color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .table-row:hover {
+    background-color: var(--color-background-alt);
+  }
+  
+  .table-row:last-child {
+    border-bottom: none;
+  }
+  
+  .group-cta {
+    margin-top: 2rem;
+  }
+  
+  .group-cta .btn-primary {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+  }
+  
+  .group-cta .btn-primary:hover {
+    background-color: var(--color-primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Special rates */
+  .special-rates {
+    background-color: var(--color-accent-light);
+    border-radius: var(--border-radius-lg);
+    padding: 3rem;
+    margin-bottom: 5rem;
+    text-align: center;
+  }
+  
+  .special-rates h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--color-accent-dark);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .special-rates h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-accent);
+    border-radius: 3px;
+  }
+  
+  .special-rates > p {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--color-text-dark);
+  }
+  
+  .rates-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .rate-card {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--color-accent);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+  }
+  
+  .rate-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .rate-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: var(--color-accent-dark);
+    font-size: 1.2rem;
+  }
+  
+  .discount {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-dark);
+    background-color: var(--color-accent-light);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius-sm);
+    display: inline-block;
+  }
+  
+  .eligibility {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    margin-top: 0.75rem;
+  }
+  
+  .special-note {
+    font-style: italic;
+    background-color: white;
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+    display: inline-block;
+    margin-top: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .special-note a {
+    color: var(--color-accent);
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  
+  .special-note a:hover {
+    color: var(--color-accent-dark);
+    text-decoration: underline;
+  }
+  
+  /* FAQ */
+  .tickets-faq {
+    margin-bottom: 5rem;
+    background-color: var(--color-secondary-light);
+    padding: 3rem;
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .tickets-faq h2 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1.8rem;
+    color: var(--color-secondary-dark);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .tickets-faq h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-secondary);
+    border-radius: 3px;
+  }
+  
+  .faq-item {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--color-secondary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .faq-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .faq-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .faq-item h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: var(--color-secondary-dark);
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .faq-item h3::before {
+    content: "❓";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 1rem;
+  }
+  
+  .faq-item p {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+  
+  /* Final CTA */
+  .options-cta {
+    text-align: center;
+    padding: 3rem;
+    background: var(--gradient-primary-to-secondary);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 3rem;
+    color: white;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .options-cta h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    color: white;
+  }
+  
+  .options-cta p {
+    margin-bottom: 2rem;
+    font-size: 1.25rem;
+    opacity: 0.9;
+  }
+  
+  .options-cta .btn-primary {
+    background-color: white;
+    color: var(--color-primary-dark);
+    border-color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    transition: all 0.3s ease;
+  }
+  
+  .options-cta .btn-primary:hover {
+    background-color: var(--color-background-alt);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Responsive styles */
+  @media (min-width: 992px) {
+    .tickets-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .rates-cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .tickets-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .rates-cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (min-width: 576px) and (max-width: 767px) {
+    .rates-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .options-intro,
+    .group-rates,
+    .special-rates,
+    .options-cta,
+    .tickets-faq {
+      padding: 2rem 1.5rem;
+    }
+    
+    .ticket-header,
+    .ticket-body,
+    .ticket-actions {
+      padding: 1.5rem;
+    }
+    
+    .current-price {
+      font-size: 1.75rem;
+    }
+    
+    .early-bird {
+      font-size: 1rem;
+    }
+  }
+</style>

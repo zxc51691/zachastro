@@ -1,0 +1,734 @@
+---
+// src/pages/tech-labs/hands-on-labs.astro
+import PageLayout from '../../layouts/pagelayout.astro';
+import Card from '../../components/card.astro';
+import Button from '../../components/button.astro';
+
+// Lab categories
+const categories = [
+  { id: 'all', name: 'All Labs', link: '/tech-labs/' },
+  { id: 'hands-on', name: 'Hands-on Labs', link: '/tech-labs/hands-on-labs/' },
+  { id: 'demos', name: 'Live Demos', link: '/tech-labs/live-demos/' },
+];
+
+// Hands-on labs data
+const handsOnLabs = [
+  {
+    title: 'Cloud-Native Architecture Workshop',
+    image: '/public/lab1.jpg',
+    description: 'Get hands-on experience designing and implementing cloud-native solutions with real-world scenarios. You\'ll deploy a microservices application using Kubernetes, implement service mesh patterns with Istio, and configure observability tools.',
+    instructors: ['Michael Zhang', 'Rebecca Kim'],
+    difficulty: 'Intermediate',
+    duration: '3 hours',
+    capacity: 30,
+    prerequisites: ['Basic Kubernetes knowledge', 'Containerization concepts'],
+    equipment: ['Laptop with Docker installed', 'Terminal with SSH capabilities'],
+    slug: 'cloud-native',
+    id: 'cloud-native'
+  },
+  {
+    title: 'AI Model Deployment Pipeline',
+    image: '/public/lab2.jpg',
+    description: 'Learn how to build a robust CI/CD pipeline for machine learning models from development to production. This workshop covers model versioning, automated testing, deployment strategies, and monitoring for ML systems.',
+    instructors: ['Priya Patel', 'Marcus Williams'],
+    difficulty: 'Advanced',
+    duration: '3 hours',
+    capacity: 25,
+    prerequisites: ['Basic ML knowledge', 'CI/CD experience'],
+    equipment: ['Laptop with Python 3.8+', 'Git client'],
+    slug: 'ai-deployment',
+    id: 'ai-deployment'
+  },
+  {
+    title: 'Performance Optimization Masterclass',
+    image: '/public/lab3.jpg',
+    description: 'Dive deep into techniques for optimizing system performance at scale. You\'ll use profiling tools to identify bottlenecks, optimize database queries, improve API response times, and tune application performance.',
+    instructors: ['Olivia Torres', 'James Wilson'],
+    difficulty: 'Intermediate',
+    duration: '2.5 hours',
+    capacity: 30,
+    prerequisites: ['Profiling concepts', 'Application troubleshooting'],
+    equipment: ['Laptop with Node.js and Java installed'],
+    slug: 'performance',
+    id: 'performance'
+  },
+  {
+    title: 'Serverless Architecture Design',
+    image: '/public/lab4.jpg',
+    description: 'Design and implement serverless architectures for various use cases. This workshop covers event-driven architecture, function composition, state management, and scalability considerations for serverless applications.',
+    instructors: ['David Kim'],
+    difficulty: 'Intermediate',
+    duration: '2.5 hours',
+    capacity: 35,
+    prerequisites: ['Cloud basics', 'API design knowledge'],
+    equipment: ['Laptop with AWS CLI configured', 'Node.js 14+'],
+    slug: 'serverless',
+    id: 'serverless'
+  },
+  {
+    title: 'Advanced Observability Implementation',
+    image: '/public/lab7.jpg',
+    description: 'Build comprehensive observability solutions using modern tools and practices. You\'ll implement distributed tracing, metrics collection, log aggregation, and alerting for complex distributed systems.',
+    instructors: ['Sarah Chen', 'Thomas Zhang'],
+    difficulty: 'Intermediate',
+    duration: '3 hours',
+    capacity: 25,
+    prerequisites: ['Basic monitoring concepts', 'Distributed systems understanding'],
+    equipment: ['Laptop with Docker and Docker Compose'],
+    slug: 'observability',
+    id: 'observability'
+  },
+  {
+    title: 'Zero Trust Security Implementation',
+    image: '/public/lab8.jpg',
+    description: 'Implement zero trust security principles in a modern application environment. This workshop covers identity-aware proxies, service-to-service authentication, authorization policies, and secure access patterns.',
+    instructors: ['Elena Rodriguez', 'Raj Patel'],
+    difficulty: 'Advanced',
+    duration: '3 hours',
+    capacity: 25,
+    prerequisites: ['Basic security concepts', 'Networking fundamentals'],
+    equipment: ['Laptop with Kubernetes client tools'],
+    slug: 'zero-trust',
+    id: 'zero-trust'
+  },
+  {
+    title: 'Multi-Region Database Deployment',
+    image: '/public/lab9.jpg',
+    description: 'Design and implement globally distributed database systems with effective replication, conflict resolution, and performance optimization. Learn strategies for handling latency, consistency, and regional failures.',
+    instructors: ['James Wilson'],
+    difficulty: 'Advanced',
+    duration: '2.5 hours',
+    capacity: 20,
+    prerequisites: ['Database management experience', 'Distributed systems concepts'],
+    equipment: ['Laptop with SSH client', 'Database client tools installed'],
+    slug: 'multi-region-db',
+    id: 'multi-region-db'
+  },
+  {
+    title: 'Infrastructure as Code Workshop',
+    image: '/public/lab10.jpg',
+    description: 'Master infrastructure as code practices using modern IaC tools. You\'ll implement reusable, parametrized infrastructure templates, automate deployments, and build testing strategies for infrastructure.',
+    instructors: ['Alex Johnson', 'Michael Zhang'],
+    difficulty: 'Intermediate',
+    duration: '3 hours',
+    capacity: 30,
+    prerequisites: ['Basic cloud knowledge', 'Command line experience'],
+    equipment: ['Laptop with Terraform 1.0+ installed', 'AWS or GCP account'],
+    slug: 'iac-workshop',
+    id: 'iac-workshop'
+  }
+];
+---
+
+<PageLayout
+  title="Hands-on Labs"
+  description="Interactive workshops for practical skills at CoreCon 2025"
+  heroTitle="Hands-on Labs"
+  heroSubtitle="Get your hands dirty with guided workshops led by technical experts"
+>
+  <div class="labs-container">
+    <div class="labs-intro">
+      <p>Our hands-on labs provide a structured learning environment where you can apply concepts and techniques under the guidance of experienced practitioners. Each lab is designed to build practical skills that you can immediately apply in your own work.</p>
+      
+      <div class="labs-note">
+        <h3>Registration Required</h3>
+        <p>Hands-on labs have limited capacity and require pre-registration. Add labs to your schedule during the conference registration process or update your existing registration to reserve your spot.</p>
+        <div class="labs-cta">
+          <Button href="/register" variant="primary">Register Now</Button>
+          <Button href="/register/my-schedule" variant="outline">Update My Schedule</Button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Category Links -->
+    <div class="category-links">
+      {categories.map(category => (
+        <a 
+          href={category.link} 
+          class={`category-link ${category.id === 'hands-on' ? 'active' : ''}`}
+        >
+          {category.name}
+        </a>
+      ))}
+    </div>
+    
+    <!-- Labs List -->
+    <div class="labs-list">
+      {handsOnLabs.map(lab => (
+        <div class="lab-item" id={lab.id}>
+          <div class="lab-image">
+            <img src={lab.image} alt={lab.title} />
+          </div>
+          
+          <div class="lab-content">
+            <h2 class="lab-title">{lab.title}</h2>
+            
+            <div class="lab-meta">
+              <div class="lab-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>{lab.duration}</span>
+              </div>
+              
+              <div class="lab-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Max {lab.capacity} attendees</span>
+              </div>
+              
+              <div class="lab-meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <span>Difficulty: {lab.difficulty}</span>
+              </div>
+            </div>
+            
+            <div class="lab-description">
+              <p>{lab.description}</p>
+            </div>
+            
+            <div class="lab-details">
+              <div class="lab-detail">
+                <h3>Led by</h3>
+                <p>{lab.instructors.join(', ')}</p>
+              </div>
+              
+              <div class="lab-detail">
+                <h3>Prerequisites</h3>
+                <ul>
+                  {lab.prerequisites.map(prereq => (
+                    <li>{prereq}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div class="lab-detail">
+                <h3>Required Equipment</h3>
+                <ul>
+                  {lab.equipment.map(item => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            
+            <div class="lab-actions">
+              <Button href={`/register/lab/${lab.slug}`} variant="primary">Reserve Spot</Button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Additional Information -->
+    <div class="additional-info">
+      <h2>Preparing for Hands-on Labs</h2>
+      
+      <div class="info-card">
+        <h3>Before the Conference</h3>
+        <ul>
+          <li>Install all required software listed in the lab prerequisites</li>
+          <li>Set up any necessary cloud accounts or services</li>
+          <li>Review suggested background materials sent in pre-conference emails</li>
+          <li>Join the CoreCon Discord channel for lab-specific communication</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <h3>On Lab Day</h3>
+        <ul>
+          <li>Arrive 15 minutes early to set up and connect to the lab network</li>
+          <li>Bring power adapters and ensure your laptop is fully charged</li>
+          <li>Download lab materials from the conference portal before the session</li>
+          <li>Connect to dedicated CoreCon WiFi networks for labs (details provided on-site)</li>
+        </ul>
+      </div>
+      
+      <div class="info-card">
+        <h3>Lab Environment Access</h3>
+        <p>
+          Most labs will provide temporary access to cloud resources needed for the workshop. 
+          You will receive access credentials at the beginning of each session. For labs requiring 
+          personal cloud accounts, we recommend setting up free tier accounts in advance.
+        </p>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+    .labs-container {
+      width: 100%;
+      max-width: var(--container-max-width);
+      margin: 0 auto;
+    }
+    
+    /* Intro section with accent amber styling */
+    .labs-intro {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background-color: var(--color-accent-light);
+      border-radius: var(--border-radius-lg);
+      border-left: 4px solid var(--color-accent);
+    }
+    
+    .labs-intro p {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      color: var(--color-text-dark);
+    }
+    
+    /* Labs Note - using secondary purple colors */
+    .labs-note {
+      background-color: var(--color-secondary-light);
+      padding: 2rem;
+      border-radius: var(--border-radius-md);
+      border-left: 4px solid var(--color-secondary);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease;
+    }
+    
+    .labs-note:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .labs-note h3 {
+      color: var(--color-secondary-dark);
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    
+    .labs-note p {
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+    }
+    
+    .labs-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    /* Style primary button with accent color instead */
+    .labs-cta .btn-primary {
+      background-color: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+    
+    .labs-cta .btn-primary:hover {
+      background-color: var(--color-accent-dark);
+      border-color: var(--color-accent-dark);
+      transform: translateY(-3px);
+    }
+    
+    .labs-cta .btn-outline {
+      border-color: var(--color-secondary);
+      color: var(--color-secondary-dark);
+    }
+    
+    .labs-cta .btn-outline:hover {
+      background-color: var(--color-secondary);
+      color: white;
+      transform: translateY(-3px);
+    }
+    
+    /* Category Links - using primary blue styling */
+    .category-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      background-color: var(--color-primary-light);
+      padding: 1rem;
+      border-radius: var(--border-radius-md);
+    }
+    
+    .category-link {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: white;
+      border-radius: var(--border-radius-md);
+      text-decoration: none;
+      color: var(--color-text-dark);
+      font-weight: 600;
+      transition: all var(--transition-normal);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .category-link:hover {
+      background-color: var(--color-accent-light);
+      color: var(--color-accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .category-link.active {
+      background-color: var(--color-primary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* Labs List */
+    .labs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    
+    /* Lab items with colored borders based on difficulty */
+    .lab-item {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      scroll-margin-top: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-top: 5px solid var(--color-secondary); /* Default color */
+    }
+    
+    /* Style based on difficulty level */
+    .lab-item:has(.lab-meta-item:contains("Intermediate")) {
+      border-top-color: var(--color-secondary);
+    }
+    
+    .lab-item:has(.lab-meta-item:contains("Advanced")) {
+      border-top-color: var(--color-accent);
+    }
+    
+    .lab-item:has(.lab-meta-item:contains("Beginner")) {
+      border-top-color: var(--color-primary);
+    }
+    
+    .lab-item:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .lab-image {
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .lab-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    }
+    
+    .lab-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .lab-item:hover .lab-image img {
+      transform: scale(1.05);
+    }
+    
+    .lab-content {
+      padding: 2rem;
+    }
+    
+    .lab-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: var(--color-text-dark);
+      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 0.75rem;
+    }
+    
+    /* Lab Meta - icons with colored backgrounds */
+    .lab-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .lab-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+    
+    /* Alternate colors for meta items */
+    .lab-meta-item:nth-child(3n+1) {
+      background-color: var(--color-primary-light);
+      color: var(--color-primary-dark);
+    }
+    
+    .lab-meta-item:nth-child(3n+2) {
+      background-color: var(--color-secondary-light);
+      color: var(--color-secondary-dark);
+    }
+    
+    .lab-meta-item:nth-child(3n+3) {
+      background-color: var(--color-accent-light);
+      color: var(--color-accent-dark);
+    }
+    
+    .lab-meta-item svg {
+      flex-shrink: 0;
+    }
+    
+    .lab-description {
+      margin-bottom: 2rem;
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--color-text);
+    }
+    
+    /* Lab Details - styled info cards */
+    .lab-details {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      background-color: var(--color-background-alt);
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+    }
+    
+    .lab-detail {
+      padding: 1rem;
+      border-radius: var(--border-radius-sm);
+      transition: transform 0.3s ease;
+    }
+    
+    .lab-detail:hover {
+      transform: translateY(-5px);
+    }
+    
+    /* Color-code each detail section */
+    .lab-detail:nth-child(1) {
+      background-color: var(--color-primary-light);
+    }
+    
+    .lab-detail:nth-child(2) {
+      background-color: var(--color-secondary-light);
+    }
+    
+    .lab-detail:nth-child(3) {
+      background-color: var(--color-accent-light);
+    }
+    
+    .lab-detail h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .lab-detail:nth-child(1) h3 {
+      color: var(--color-primary-dark);
+    }
+    
+    .lab-detail:nth-child(1) h3::before {
+      content: "👨‍🏫";
+      position: absolute;
+      left: 0;
+    }
+    
+    .lab-detail:nth-child(2) h3 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .lab-detail:nth-child(2) h3::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+    }
+    
+    .lab-detail:nth-child(3) h3 {
+      color: var(--color-accent-dark);
+    }
+    
+    .lab-detail:nth-child(3) h3::before {
+      content: "💻";
+      position: absolute;
+      left: 0;
+    }
+    
+    .lab-detail ul {
+      padding-left: 1.5rem;
+    }
+    
+    .lab-detail li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .lab-actions {
+      margin-top: 1.5rem;
+    }
+    
+    .lab-actions .btn-primary {
+      background: var(--gradient-primary-to-secondary);
+      border: none;
+      padding: 0.75rem 1.75rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .lab-actions .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      filter: brightness(1.1);
+    }
+    
+    /* Additional Information - styled with amber accent */
+    .additional-info {
+      margin-top: 4rem;
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background-color: var(--color-primary-light);
+      border-radius: var(--border-radius-lg);
+    }
+    
+    .additional-info h2 {
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+      color: var(--color-primary-dark);
+      text-align: center;
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    
+    .additional-info h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background-color: var(--color-accent);
+    }
+    
+    .info-card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease;
+      border-left: 4px solid var(--color-accent);
+    }
+    
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .info-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--color-accent-dark);
+    }
+    
+    .info-card ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .info-card li {
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    
+    .info-card li::marker {
+      color: var(--color-accent);
+    }
+    
+    /* Responsive Styles */
+    @media (min-width: 768px) {
+      .lab-item {
+        flex-direction: row;
+      }
+      
+      .lab-image {
+        width: 40%;
+        height: auto;
+      }
+      
+      .lab-details {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .lab-detail:last-child {
+        grid-column: span 2;
+      }
+      
+      .additional-info .info-card {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      
+      .additional-info .info-card h3 {
+        margin-bottom: 0;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .lab-details {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      
+      .lab-detail:last-child {
+        grid-column: auto;
+      }
+      
+      .info-card {
+        margin-left: 1rem;
+        margin-right: 1rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .category-links {
+        flex-direction: column;
+      }
+      
+      .category-link {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .labs-cta {
+        flex-direction: column;
+      }
+      
+      .labs-cta .btn {
+        width: 100%;
+      }
+    }
+  </style>

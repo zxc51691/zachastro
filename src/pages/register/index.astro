@@ -1,0 +1,632 @@
+---
+// src/pages/register/index.astro
+import PageLayout from '../../layouts/pagelayout.astro';
+import Button from '../../components/button.astro';
+
+// Key dates - simplified
+const keyDates = [
+  { date: "March 31, 2025", event: "Early Bird Registration Ends" },
+  { date: "April 1, 2025", event: "Standard Registration Period Begins" },
+  { date: "May 10, 2025", event: "Registration Closes" },
+  { date: "May 15-17, 2025", event: "CoreCon 2025" }
+];
+
+// Ticket types - simplified
+const ticketTypes = [
+  {
+    name: "Standard Pass",
+    price: "$799",
+    includes: ["All main conference sessions", "Networking events", "Conference materials"]
+  },
+  {
+    name: "Premium Pass",
+    price: "$1,299",
+    includes: ["All Standard Pass benefits", "Priority Tech Lab access", "Exclusive speaker sessions", "Premium lounge access"]
+  },
+  {
+    name: "Workshop Pass",
+    price: "$499",
+    includes: ["Access to Tech Labs only", "Workshop materials", "Certificate of completion"]
+  }
+];
+---
+
+<PageLayout
+  title="Register"
+  description="Register for CoreCon 2025"
+  heroTitle="Register for CoreCon 2025"
+  heroSubtitle="Join us for three days of technical excellence and networking"
+>
+  <div class="register-container">
+    <!-- Simple intro and CTA -->
+    <div class="register-intro">
+      <p>CoreCon 2025 brings together core engineers and industry leaders for three days of in-depth technical content, hands-on experiences, and valuable networking. Registration is now open!</p>
+      
+      <div class="register-actions">
+        <Button href="/register/registration-form" variant="primary">Register Now</Button>
+        <Button href="/register/ticket-options" variant="outline">View Ticket Options</Button>
+      </div>
+    </div>
+    
+    <!-- Simple ticket overview -->
+    <div class="ticket-overview">
+      <h2>Ticket Options</h2>
+      
+      <div class="ticket-list">
+        {ticketTypes.map((ticket, index) => {
+          const ticketSlug = ticket.name.toLowerCase().replace(' ', '-');
+          return (
+            <a href={`/register/registration-form?ticket=${ticketSlug}`} class="ticket-card">
+              <div class="ticket-header">
+                <h3>{ticket.name}</h3>
+                <div class="ticket-price">{ticket.price}</div>
+              </div>
+              <div class="ticket-content">
+                <ul class="ticket-features">
+                  {ticket.includes.map(feature => (
+                    <li>{feature}</li>
+                  ))}
+                </ul>
+                <div class="ticket-select">
+                  <span class="select-btn">Select This Ticket</span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+      
+    </div>
+    
+    <!-- Key dates - simplified -->
+    <div class="key-dates">
+      <h2>Important Dates</h2>
+      
+      <ul class="dates-list">
+        {keyDates.map(item => (
+          <li>
+            <strong>{item.date}:</strong> {item.event}
+          </li>
+        ))}
+      </ul>
+    </div>
+    
+    <!-- Simple FAQ -->
+    <div class="register-faq">
+      <h2>Registration FAQ</h2>
+      
+      <div class="faq-item">
+        <h3>What's included in registration?</h3>
+        <p>All standard registrations include access to main conference sessions, networking events, refreshments, and conference materials. Premium passes include additional benefits like priority access to workshops and exclusive sessions.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>What is the cancellation policy?</h3>
+        <p>Registrations can be cancelled with a full refund until April 15, 2025. Between April 16 and May 1, cancellations receive a 50% refund. After May 1, no refunds will be issued, but registrations can be transferred to another person.</p>
+      </div>
+      
+      <div class="faq-item">
+        <h3>How can I register a group?</h3>
+        <p>For groups of 3 or more, email us at groups@corecon.tech for special rates and streamlined registration. Groups of 3-5 receive 15% off, and groups of 6+ receive 20% off.</p>
+      </div>
+    </div>
+    
+    <!-- Contact info - simplified -->
+    <div class="register-contact">
+      <h2>Questions?</h2>
+      <p>If you have any questions about registration, please contact us:</p>
+      <p><strong>Email:</strong> registration@corecon.tech</p>
+      <p><strong>Phone:</strong> (202) 555-1234</p>
+    </div>
+    
+    <!-- Final CTA -->
+    <div class="register-cta">
+      <Button href="/register/registration-form" variant="primary">Register Now</Button>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .register-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  /* Intro section */
+  .register-intro {
+    margin-bottom: 5rem;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--color-accent-light);
+    border-radius: var(--border-radius-lg);
+    border-left: 4px solid var(--color-accent);
+  }
+  
+  .register-intro p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    color: var(--color-text-dark);
+  }
+  
+  .register-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  
+  .register-actions .btn-primary {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  
+  .register-actions .btn-primary:hover {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .register-actions .btn-outline {
+    border-color: var(--color-accent);
+    color: var(--color-accent-dark);
+  }
+  
+  .register-actions .btn-outline:hover {
+    background-color: var(--color-accent-light);
+    color: var(--color-accent-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* Ticket overview */
+  .ticket-overview {
+    margin-bottom: 5rem;
+    background-color: var(--color-secondary-light);
+    padding: 3rem;
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .ticket-overview h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.8rem;
+    color: var(--color-secondary-dark);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .ticket-overview h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-secondary);
+    border-radius: 3px;
+  }
+  
+  .ticket-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .ticket-card {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    cursor: pointer;
+    border-top: 5px solid;
+  }
+  
+  /* Color-code each ticket type */
+  .ticket-card:nth-child(1) {
+    border-top-color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) {
+    border-top-color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) {
+    border-top-color: var(--color-accent);
+  }
+  
+  .ticket-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--color-border);
+  }
+  
+  .ticket-card:nth-child(1) .ticket-header {
+    border-bottom-color: var(--color-primary-light);
+  }
+  
+  .ticket-card:nth-child(2) .ticket-header {
+    border-bottom-color: var(--color-secondary-light);
+  }
+  
+  .ticket-card:nth-child(3) .ticket-header {
+    border-bottom-color: var(--color-accent-light);
+  }
+  
+  .ticket-header h3 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .ticket-card:nth-child(1) .ticket-header h3 {
+    color: var(--color-primary-dark);
+  }
+  
+  .ticket-card:nth-child(2) .ticket-header h3 {
+    color: var(--color-secondary-dark);
+  }
+  
+  .ticket-card:nth-child(3) .ticket-header h3 {
+    color: var(--color-accent-dark);
+  }
+  
+  .ticket-price {
+    font-weight: 700;
+    font-size: 1.5rem;
+  }
+  
+  .ticket-card:nth-child(1) .ticket-price {
+    color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) .ticket-price {
+    color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) .ticket-price {
+    color: var(--color-accent);
+  }
+  
+  .ticket-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .ticket-features {
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+    flex-grow: 1;
+  }
+  
+  .ticket-features li {
+    margin-bottom: 0.75rem;
+    position: relative;
+    color: var(--color-text);
+  }
+  
+  .ticket-features li::before {
+    content: "✓";
+    position: absolute;
+    left: -1.5rem;
+    font-weight: bold;
+  }
+  
+  .ticket-card:nth-child(1) .ticket-features li::before {
+    color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) .ticket-features li::before {
+    color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) .ticket-features li::before {
+    color: var(--color-accent);
+  }
+  
+  .ticket-select {
+    margin-top: auto;
+    text-align: center;
+  }
+  
+  .select-btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: white;
+  
+  }
+  
+  .ticket-card:nth-child(1) .select-btn {
+    background-color: var(--color-primary);
+  }
+  
+  .ticket-card:nth-child(2) .select-btn {
+    background-color: var(--color-secondary);
+  }
+  
+  .ticket-card:nth-child(3) .select-btn {
+    background-color: var(--color-accent);
+  }
+  
+  .ticket-card:nth-child(1):hover .select-btn {
+    background-color: var(--color-primary-dark);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .ticket-card:nth-child(2):hover .select-btn {
+    background-color: var(--color-secondary-dark);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .ticket-card:nth-child(3):hover .select-btn {
+    background-color: var(--color-accent-dark);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .ticket-note {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    color: var(--color-text-dark);
+    background-color: white;
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+    border-left: 4px solid var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Key dates */
+  .key-dates {
+    margin-bottom: 5rem;
+    padding: 3rem;
+    background-color: var(--color-primary-light);
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .key-dates h2 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1.8rem;
+    color: var(--color-primary-dark);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .key-dates h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 3px;
+  }
+  
+  .dates-list {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    padding: 2rem 3rem;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .dates-list li {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 1.1rem;
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .dates-list li::before {
+    content: "📅";
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  
+  .dates-list li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  
+  .dates-list li strong {
+    color: var(--color-primary-dark);
+  }
+  
+  /* FAQ */
+  .register-faq {
+    margin-bottom: 5rem;
+    background-color: var(--color-accent-light);
+    padding: 3rem;
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .register-faq h2 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: 1.8rem;
+    color: var(--color-accent-dark);
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .register-faq h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-accent);
+    border-radius: 3px;
+  }
+  
+  .faq-item {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid var(--color-accent);
+  }
+  
+  .faq-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .faq-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .faq-item h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: var(--color-accent-dark);
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .faq-item h3::before {
+    content: "❓";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 1rem;
+  }
+  
+  .faq-item p {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+  
+  /* Contact */
+  .register-contact {
+    margin-bottom: 5rem;
+    text-align: center;
+    background-color: var(--color-secondary-light);
+    padding: 3rem;
+    border-radius: var(--border-radius-lg);
+    border-top: 4px solid var(--color-secondary);
+  }
+  
+  .register-contact h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--color-secondary-dark);
+  }
+  
+  .register-contact p {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    color: var(--color-text);
+  }
+  
+  .register-contact p strong {
+    color: var(--color-secondary-dark);
+  }
+  
+  /* Final CTA */
+  .register-cta {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 3rem;
+    background: var(--gradient-primary-to-secondary);
+    border-radius: var(--border-radius-lg);
+    color: white;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .register-cta .btn-primary {
+    font-size: 1.2rem;
+    padding: 0.75rem 2rem;
+    background-color: white;
+    color: var(--color-primary-dark);
+    border-color: white;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+  }
+  
+  .register-cta .btn-primary:hover {
+    background-color: var(--color-background-alt);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Responsive styles */
+  @media (min-width: 768px) {
+    .ticket-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .register-actions {
+      flex-direction: row;
+    }
+    
+    .faq-item {
+      padding: 2.5rem;
+    }
+  }
+  
+  @media (min-width: 640px) and (max-width: 767px) {
+    .ticket-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .register-intro,
+    .ticket-overview,
+    .key-dates,
+    .register-faq,
+    .register-contact {
+      padding: 2rem 1.5rem;
+    }
+    
+    .register-actions {
+      flex-direction: column;
+    }
+    
+    .register-actions .btn {
+      width: 100%;
+    }
+    
+    .ticket-card {
+      padding: 1.5rem;
+    }
+    
+    .ticket-header h3,
+    .ticket-price {
+      font-size: 1.25rem;
+    }
+  }
+</style>

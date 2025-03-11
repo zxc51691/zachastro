@@ -1,0 +1,755 @@
+---
+// src/pages/tech-labs/index.astro
+import PageLayout from '../../layouts/pagelayout.astro';
+import Card from '../../components/card.astro';
+import Button from '../../components/button.astro';
+
+// Lab categories
+const categories = [
+  { id: 'all', name: 'All Labs', link: '/tech-labs/' },
+  { id: 'hands-on', name: 'Hands-on Labs', link: '/tech-labs/hands-on-labs/' },
+  { id: 'demos', name: 'Live Demos', link: '/tech-labs/live-demos/' },
+];
+
+// Featured labs data
+const featuredLabs = [
+  {
+    title: 'Cloud-Native Architecture Workshop',
+    image: '/public/lab1.jpg',
+    description: 'Get hands-on experience designing and implementing cloud-native solutions with real-world scenarios. Learn Kubernetes, service mesh, and cloud-native patterns.',
+    instructors: ['Michael Zhang', 'Rebecca Kim'],
+    type: 'hands-on',
+    difficulty: 'Intermediate',
+    prerequisites: ['Basic Kubernetes knowledge', 'Containerization concepts'],
+    slug: 'cloud-native',
+    href: '/tech-labs/hands-on-labs/#cloud-native'
+  },
+  {
+    title: 'AI Model Deployment Pipeline',
+    image: '/public/lab2.jpg',
+    description: 'Learn how to build a robust CI/CD pipeline for machine learning models from development to production, ensuring reproducibility and reliability.',
+    instructors: ['Priya Patel', 'Marcus Williams'],
+    type: 'hands-on',
+    difficulty: 'Advanced',
+    prerequisites: ['Basic ML knowledge', 'CI/CD experience'],
+    slug: 'ai-deployment',
+    href: '/tech-labs/hands-on-labs/#ai-deployment'
+  },
+  {
+    title: 'Performance Optimization Masterclass',
+    image: '/public/lab3.jpg',
+    description: 'Dive deep into techniques for optimizing system performance at scale with expert engineers. Use profiling tools to identify and fix bottlenecks.',
+    instructors: ['Olivia Torres', 'James Wilson'],
+    type: 'hands-on',
+    difficulty: 'Intermediate',
+    prerequisites: ['Profiling concepts', 'Application troubleshooting'],
+    slug: 'performance',
+    href: '/tech-labs/hands-on-labs/#performance'
+  },
+  {
+    title: 'Serverless Architecture Design',
+    image: '/public/lab4.jpg',
+    description: 'Design and implement serverless architectures for various use cases, exploring patterns, anti-patterns, and best practices for event-driven systems.',
+    instructors: ['David Kim'],
+    type: 'hands-on',
+    difficulty: 'Intermediate',
+    prerequisites: ['Cloud basics', 'API design knowledge'],
+    slug: 'serverless',
+    href: '/tech-labs/hands-on-labs/#serverless'
+  },
+  {
+    title: 'Quantum Computing Showcase',
+    image: '/public/lab5.jpg',
+    description: 'See quantum computing algorithms in action and explore their potential applications in cryptography, optimization, and machine learning.',
+    instructors: ['Dr. Thomas Park'],
+    type: 'demo',
+    difficulty: 'All Levels',
+    prerequisites: ['None'],
+    slug: 'quantum',
+    href: '/tech-labs/live-demos/#quantum'
+  },
+  {
+    title: 'Next-Gen Authentication Systems',
+    image: '/public/lab6.jpg',
+    description: 'Explore emerging authentication technologies including passwordless, biometrics, and behavioral analysis in this interactive demonstration.',
+    instructors: ['Raj Patel', 'Elena Rodriguez'],
+    type: 'demo',
+    difficulty: 'All Levels',
+    prerequisites: ['None'],
+    slug: 'authentication',
+    href: '/tech-labs/live-demos/#authentication'
+  }
+];
+---
+
+<PageLayout
+  title="Tech Labs"
+  description="Hands-on workshops and live demos at CoreCon 2025"
+  heroTitle="Tech Labs"
+  heroSubtitle="Apply your knowledge with interactive workshops and cutting-edge demonstrations"
+>
+  <div class="labs-container">
+    <div class="labs-intro">
+      <p>CoreCon's Tech Labs offer immersive, hands-on experiences that complement the main conference sessions. Choose from guided workshops where you'll implement solutions to real-world problems, or watch live demonstrations of emerging technologies and approaches.</p>
+      
+      <div class="labs-features">
+        <div class="lab-feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="3" y1="9" x2="21" y2="9"></line>
+            <line x1="9" y1="21" x2="9" y2="9"></line>
+          </svg>
+          <div>
+            <h3>Expert-Guided Workshops</h3>
+            <p>Led by industry practitioners with deep expertise in their domains</p>
+          </div>
+        </div>
+        
+        <div class="lab-feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+            <line x1="8" y1="2" x2="8" y2="18"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+          </svg>
+          <div>
+            <h3>Real-World Scenarios</h3>
+            <p>Tackle practical challenges drawn from real production environments</p>
+          </div>
+        </div>
+        
+        <div class="lab-feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <div>
+            <h3>Collaborative Environment</h3>
+            <p>Work alongside peers to share insights and solve problems together</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Category Links -->
+    <div class="category-links">
+      {categories.map(category => (
+        <a 
+          href={category.link} 
+          class={`category-link ${category.id === 'all' ? 'active' : ''}`}
+        >
+          {category.name}
+        </a>
+      ))}
+    </div>
+    
+    <!-- Labs Grid -->
+    <h2 class="section-heading">Featured Tech Labs</h2>
+    <div class="labs-grid">
+      {featuredLabs.map(lab => (
+        <Card
+          title={lab.title}
+          image={lab.image}
+          href={lab.href}
+          variant="default"
+        >
+          <p>{lab.description}</p>
+          
+          <div class="lab-meta">
+            <div class="lab-meta-item">
+              <span class="meta-label">Type:</span>
+              <span class={`lab-type lab-type-${lab.type}`}>
+                {lab.type === 'hands-on' ? 'Hands-on Workshop' : 'Live Demo'}
+              </span>
+            </div>
+            
+            <div class="lab-meta-item">
+              <span class="meta-label">Instructors:</span>
+              <span>{lab.instructors.join(', ')}</span>
+            </div>
+            
+            <div class="lab-meta-item">
+              <span class="meta-label">Difficulty:</span>
+              <span>{lab.difficulty}</span>
+            </div>
+            
+            {lab.prerequisites.length > 0 && (
+              <div class="lab-meta-item">
+                <span class="meta-label">Prerequisites:</span>
+                <span>{lab.prerequisites.join(', ')}</span>
+              </div>
+            )}
+          </div>
+          
+          <div slot="link-text">Learn More</div>
+        </Card>
+      ))}
+    </div>
+    
+    <!-- What to Expect -->
+    <div class="expect-section">
+      <h2>What to Expect at Tech Labs</h2>
+      
+      <div class="expect-grid">
+        <div class="expect-item">
+          <h3>Hands-on Workshops</h3>
+          <p>In our hands-on workshops, you'll:</p>
+          <ul>
+            <li>Work with provided cloud environments or containerized setups</li>
+            <li>Follow guided exercises with expert instructors</li>
+            <li>Tackle common challenges using industry best practices</li>
+            <li>Take home working code samples and reference materials</li>
+            <li>Receive personalized feedback from practitioners</li>
+          </ul>
+          <Button href="/tech-labs/hands-on-labs" variant="primary">View Hands-on Labs</Button>
+        </div>
+        
+        <div class="expect-item">
+          <h3>Live Demonstrations</h3>
+          <p>At our live demo sessions, you'll:</p>
+          <ul>
+            <li>See cutting-edge technologies in action</li>
+            <li>Witness real-time implementations of advanced systems</li>
+            <li>Ask questions during interactive Q&A segments</li>
+            <li>Connect with demo presenters during dedicated networking time</li>
+            <li>Explore potential applications to your own work</li>
+          </ul>
+          <Button href="/tech-labs/live-demos" variant="primary">View Live Demos</Button>
+        </div>
+      </div>
+      
+      <div class="preparation-note">
+        <h3>How to Prepare</h3>
+        <p>For the best Tech Labs experience, we recommend:</p>
+        <ul>
+          <li>Bringing your own laptop with the specified prerequisites installed</li>
+          <li>Reviewing the prerequisites for your chosen labs before attending</li>
+          <li>Having a GitHub account for accessing lab materials</li>
+          <li>Setting up any required cloud provider accounts in advance (instructions will be provided)</li>
+        </ul>
+        <p>Detailed preparation instructions will be sent to registered attendees one week before the conference.</p>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .labs-container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+  }
+  
+  /* Intro section - match with speakers intro (blue for main index pages) */
+  .labs-intro {
+    margin-bottom: 3rem;
+    background-color: var(--color-primary-light);
+    padding: 2rem;
+    border-radius: var(--border-radius-lg);
+    border-left: 4px solid var(--color-primary);
+  }
+  
+  .labs-intro p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    color: var(--color-text-dark);
+  }
+  
+  /* Lab Features - match card patterns from other pages */
+  .labs-features {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .lab-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 4px solid; /* Changed from border-top to match speaker cards */
+  }
+  
+  .lab-feature:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Color code each feature with our standard pattern */
+  .lab-feature:nth-child(1) {
+    border-top-color: var(--color-primary);
+  }
+  
+  .lab-feature:nth-child(2) {
+    border-top-color: var(--color-secondary);
+  }
+  
+  .lab-feature:nth-child(3) {
+    border-top-color: var(--color-accent);
+  }
+  
+  .lab-feature svg {
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+    padding: 0.75rem;
+    background-color: var(--color-background-alt);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .lab-feature:nth-child(1) svg {
+    color: var(--color-primary);
+    background-color: var(--color-primary-light);
+  }
+  
+  .lab-feature:nth-child(2) svg {
+    color: var(--color-secondary);
+    background-color: var(--color-secondary-light);
+  }
+  
+  .lab-feature:nth-child(3) svg {
+    color: var(--color-accent);
+    background-color: var(--color-accent-light);
+  }
+  
+  .lab-feature h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .lab-feature:nth-child(1) h3 {
+    color: var(--color-primary-dark);
+  }
+  
+  .lab-feature:nth-child(2) h3 {
+    color: var(--color-secondary-dark);
+  }
+  
+  .lab-feature:nth-child(3) h3 {
+    color: var(--color-accent-dark);
+  }
+  
+  .lab-feature p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: var(--color-text);
+  }
+  
+  /* Category Links - match with other pages (secondary background) */
+  .category-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    background-color: var(--color-secondary-light);
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+  }
+  
+  .category-link {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    color: var(--color-text-dark);
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .category-link:hover {
+    background-color: var(--color-accent-light);
+    color: var(--color-accent-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .category-link.active {
+    background-color: var(--color-secondary);
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* Section Heading - standardize with other pages */
+  .section-heading {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    color: var(--color-text-dark);
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .section-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-primary); /* Changed from gradient to match other headings */
+    border-radius: 3px;
+  }
+  
+  /* Labs Grid */
+  .labs-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  
+  /* Card styling overrides */
+  .labs-grid :global(.card) {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 4px solid var(--color-primary); /* Add border to match other cards */
+  }
+  
+  /* Color-code cards by type */
+  .labs-grid :global(.card:has(.lab-type-hands-on)) {
+    border-top-color: var(--color-primary);
+  }
+  
+  .labs-grid :global(.card:has(.lab-type-demo)) {
+    border-top-color: var(--color-accent);
+  }
+  
+  .labs-grid :global(.card:hover) {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .labs-grid :global(.card-image) {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .labs-grid :global(.card-image img) {
+    transition: transform 0.5s ease;
+  }
+  
+  .labs-grid :global(.card:hover .card-image img) {
+    transform: scale(1.1);
+  }
+  
+  .labs-grid :global(.card-image::after) {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  }
+  
+  /* Lab Meta Info */
+  .lab-meta {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .lab-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .meta-label {
+    font-weight: 600;
+    color: var(--color-text-dark);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .lab-type {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  
+  .lab-type-hands-on {
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+  }
+  
+  .lab-type-demo {
+    background-color: var(--color-accent-light);
+    color: var(--color-accent-dark);
+  }
+  
+  /* What to Expect Section - match other main sections */
+  .expect-section {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    padding: 3rem 0;
+    background-color: var(--color-accent-light); /* Changed to accent to match pattern */
+    border-radius: var(--border-radius-lg);
+  }
+  
+  .expect-section h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    color: var(--color-accent-dark); /* Match section color */
+    position: relative;
+    padding-bottom: 1rem;
+  }
+  
+  .expect-section h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--color-accent);
+    border-radius: 3px;
+  }
+  
+  .expect-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding: 0 2rem;
+  }
+  
+  .expect-item {
+    background-color: white;
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-top: 5px solid;
+  }
+  
+  .expect-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Colored top borders for expect items */
+  .expect-item:nth-child(1) {
+    border-top-color: var(--color-primary);
+  }
+  
+  .expect-item:nth-child(2) {
+    border-top-color: var(--color-accent);
+  }
+  
+  .expect-item h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+  }
+  
+  .expect-item:nth-child(1) h3 {
+    color: var(--color-primary-dark);
+  }
+  
+  .expect-item:nth-child(1) h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background-color: var(--color-primary);
+  }
+  
+  .expect-item:nth-child(2) h3 {
+    color: var(--color-accent-dark);
+  }
+  
+  .expect-item:nth-child(2) h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background-color: var(--color-accent);
+  }
+  
+  .expect-item p {
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+  
+  .expect-item ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .expect-item li {
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 0.5rem;
+  }
+  
+  .expect-item:nth-child(1) li::marker {
+    color: var(--color-primary);
+  }
+  
+  .expect-item:nth-child(2) li::marker {
+    color: var(--color-accent);
+  }
+  
+  /* Style the buttons to match the card theme */
+  .expect-item:nth-child(1) :global(.btn-primary) {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  
+  .expect-item:nth-child(1) :global(.btn-primary:hover) {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .expect-item:nth-child(2) :global(.btn-primary) {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+  
+  .expect-item:nth-child(2) :global(.btn-primary:hover) {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  /* Preparation Note - standardizing with other notes */
+  .preparation-note {
+    background-color: var(--color-secondary-light);
+    padding: 2rem;
+    border-radius: var(--border-radius-md);
+    border-left: 4px solid var(--color-secondary);
+    margin: 0 2rem;
+    position: relative;
+    box-shadow: var(--shadow-md);
+  }
+  
+  .preparation-note::before {
+    content: "📝";
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    font-size: 2rem;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .preparation-note h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--color-secondary-dark);
+  }
+  
+  .preparation-note ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .preparation-note li {
+    margin-bottom: 0.75rem;
+    position: relative;
+  }
+  
+  .preparation-note li::marker {
+    color: var(--color-secondary);
+  }
+  
+  .preparation-note p:last-child {
+    margin-bottom: 0;
+    font-style: italic;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--color-border);
+  }
+  
+  /* Responsive Styles */
+  @media (min-width: 640px) {
+    .labs-features {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .lab-meta-item {
+      flex-direction: row;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    
+    .labs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .labs-features {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .labs-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .expect-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .category-links {
+      flex-direction: column;
+    }
+    
+    .category-link {
+      width: 100%;
+      text-align: center;
+    }
+    
+    .expect-section {
+      padding: 2rem 1rem;
+    }
+    
+    .expect-grid, 
+    .preparation-note {
+      padding: 0 1rem;
+      margin: 0 0.5rem;
+    }
+  }
+</style>

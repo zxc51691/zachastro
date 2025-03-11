@@ -1,0 +1,1062 @@
+---
+// src/pages/tech-labs/live-demos.astro
+import PageLayout from '../../layouts/pagelayout.astro';
+import Card from '../../components/card.astro';
+import Button from '../../components/button.astro';
+
+// Lab categories
+const categories = [
+  { id: 'all', name: 'All Labs', link: '/tech-labs/' },
+  { id: 'hands-on', name: 'Hands-on Labs', link: '/tech-labs/hands-on-labs/' },
+  { id: 'demos', name: 'Live Demos', link: '/tech-labs/live-demos/' },
+];
+
+// Live demo data
+const liveDemos = [
+  {
+    title: 'Quantum Computing Showcase',
+    image: '/public/lab5.jpg',
+    description: 'See quantum computing algorithms in action and explore their potential applications in cryptography, optimization, and machine learning. This demonstration will showcase real quantum hardware accessed remotely, explaining the fundamentals and practical implications.',
+    presenters: ['Dr. Thomas Park', 'Marcus Williams'],
+    duration: '45 minutes',
+    topics: [
+      'Quantum algorithm basics',
+      'Current capabilities of quantum systems',
+      'Potential impact on cryptography and security',
+      'Near-term applications of quantum computing'
+    ],
+    schedule: [
+      { day: 'Day 1', time: '2:00 PM - 2:45 PM', location: 'Demo Stage A' },
+      { day: 'Day 2', time: '11:00 AM - 11:45 AM', location: 'Demo Stage B' }
+    ],
+    slug: 'quantum',
+    id: 'quantum'
+  },
+  {
+    title: 'Next-Gen Authentication Systems',
+    image: '/public/lab6.jpg',
+    description: 'Explore emerging authentication technologies including passwordless, biometrics, and behavioral analysis in this interactive demonstration. See practical implementations of FIDO2, WebAuthn, and passive authentication techniques that balance security and user experience.',
+    presenters: ['Raj Patel', 'Elena Rodriguez'],
+    duration: '45 minutes',
+    topics: [
+      'Passwordless authentication standards',
+      'Biometric authentication security considerations',
+      'Behavioral authentication techniques',
+      'Multi-factor authentication innovations'
+    ],
+    schedule: [
+      { day: 'Day 1', time: '4:00 PM - 4:45 PM', location: 'Demo Stage B' },
+      { day: 'Day 3', time: '10:00 AM - 10:45 AM', location: 'Demo Stage A' }
+    ],
+    slug: 'authentication',
+    id: 'authentication'
+  },
+  {
+    title: 'Real-time Data Processing Pipeline',
+    image: '/public/lab9.jpg',
+    description: 'Watch a live demonstration of a modern real-time data processing pipeline handling millions of events per second. This demo showcases stream processing, anomaly detection, and automated response mechanisms using open-source technologies.',
+    presenters: ['Priya Patel', 'David Kim'],
+    duration: '45 minutes',
+    topics: [
+      'Stream processing architecture',
+      'Real-time analytics implementation',
+      'Scalability patterns for high-throughput systems',
+      'Handling backpressure and failure scenarios'
+    ],
+    schedule: [
+      { day: 'Day 2', time: '1:00 PM - 1:45 PM', location: 'Demo Stage A' },
+      { day: 'Day 3', time: '2:00 PM - 2:45 PM', location: 'Demo Stage A' }
+    ],
+    slug: 'data-pipeline',
+    id: 'data-pipeline'
+  },
+  {
+    title: 'Chaos Engineering in Production',
+    image: '/public/lab2.jpg',
+    description: 'See chaos engineering principles applied to production-like systems in this live demonstration. Watch as engineers intentionally introduce failures and analyze system response, showcasing tools and methodologies for building resilient systems.',
+    presenters: ['Sarah Chen', 'Alex Johnson'],
+    duration: '45 minutes',
+    topics: [
+      'Principles of chaos engineering',
+      'Safe experimentation in production',
+      'Automated chaos testing',
+      'Measuring and improving system resilience'
+    ],
+    schedule: [
+      { day: 'Day 1', time: '11:00 AM - 11:45 AM', location: 'Demo Stage A' },
+      { day: 'Day 2', time: '3:00 PM - 3:45 PM', location: 'Demo Stage B' }
+    ],
+    slug: 'chaos-engineering',
+    id: 'chaos-engineering'
+  },
+  {
+    title: 'Immersive Visualization of Complex Systems',
+    image: '/public/lab1.jpg',
+    description: 'Experience advanced visualization techniques for understanding complex distributed systems. This demo showcases 3D visualization, AR/VR approaches, and interactive exploration tools that help engineers comprehend large-scale system behavior.',
+    presenters: ['Lisa Wang', 'Michael Zhang'],
+    duration: '45 minutes',
+    topics: [
+      'Graph-based system visualization',
+      'Interactive topology exploration',
+      'Time-series data visualization in 3D',
+      'Augmented reality for operations'
+    ],
+    schedule: [
+      { day: 'Day 2', time: '2:00 PM - 2:45 PM', location: 'Demo Stage A' },
+      { day: 'Day 3', time: '1:00 PM - 1:45 PM', location: 'Demo Stage B' }
+    ],
+    slug: 'immersive-visualization',
+    id: 'immersive-visualization'
+  },
+  {
+    title: 'AI-Powered Security Operations',
+    image: '/public/lab4.jpg',
+    description: 'See how artificial intelligence and machine learning transform security operations in this live demonstration. Watch AI systems detect threats, analyze patterns, and automate response actions in real-time security scenarios.',
+    presenters: ['Elena Rodriguez', 'Marcus Williams'],
+    duration: '45 minutes',
+    topics: [
+      'Anomaly detection for security',
+      'Automated threat intelligence',
+      'Behavior analysis and user risk scoring',
+      'AI-assisted incident response'
+    ],
+    schedule: [
+      { day: 'Day 1', time: '3:00 PM - 3:45 PM', location: 'Demo Stage A' },
+      { day: 'Day 3', time: '11:00 AM - 11:45 AM', location: 'Demo Stage B' }
+    ],
+    slug: 'ai-security',
+    id: 'ai-security'
+  }
+];
+---
+
+<PageLayout
+  title="Live Demos"
+  description="Watch cutting-edge technology demonstrations at CoreCon 2025"
+  heroTitle="Live Demos"
+  heroSubtitle="See the latest technologies and techniques in action with expert commentary"
+>
+  <div class="demos-container">
+    <div class="demos-intro">
+      <p>Our live demonstration sessions showcase cutting-edge technologies, tools, and approaches with expert narration and explanation. These sessions allow you to see sophisticated systems in action, understand their implementation details, and ask questions directly to the presenters.</p>
+      
+      <div class="demos-features">
+        <div class="demo-feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+            <line x1="7" y1="2" x2="7" y2="22"></line>
+            <line x1="17" y1="2" x2="17" y2="22"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <line x1="2" y1="7" x2="7" y2="7"></line>
+            <line x1="2" y1="17" x2="7" y2="17"></line>
+            <line x1="17" y1="17" x2="22" y2="17"></line>
+            <line x1="17" y1="7" x2="22" y2="7"></line>
+          </svg>
+          <div>
+            <h3>Multiple Demonstration Stages</h3>
+            <p>Two dedicated demo areas with professional AV setups ensure everyone can see the details</p>
+          </div>
+        </div>
+        
+        <div class="demo-feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <div>
+            <h3>Interactive Q&A Sessions</h3>
+            <p>Each demo includes dedicated time for audience questions and deeper exploration</p>
+          </div>
+        </div>
+        
+        <div class="demo-feature">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+          </svg>
+          <div>
+            <h3>Access to Demo Materials</h3>
+            <p>Attendees receive links to code samples, architecture diagrams, and additional resources</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Category Links -->
+    <div class="category-links">
+      {categories.map(category => (
+        <a 
+          href={category.link} 
+          class={`category-link ${category.id === 'demos' ? 'active' : ''}`}
+        >
+          {category.name}
+        </a>
+      ))}
+    </div>
+    
+    <!-- Demos List -->
+    <div class="demos-list">
+      {liveDemos.map(demo => (
+        <div class="demo-item" id={demo.id}>
+          <div class="demo-image">
+            <img src={demo.image} alt={demo.title} />
+            <div class="demo-duration">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>{demo.duration}</span>
+            </div>
+          </div>
+          
+          <div class="demo-content">
+            <h2 class="demo-title">{demo.title}</h2>
+            
+            <div class="demo-presenters">
+              <span class="presenter-label">Presented by:</span>
+              <span class="presenter-names">{demo.presenters.join(', ')}</span>
+            </div>
+            
+            <div class="demo-description">
+              <p>{demo.description}</p>
+            </div>
+            
+            <div class="demo-topics">
+              <h3>Topics Covered</h3>
+              <ul>
+                {demo.topics.map(topic => (
+                  <li>{topic}</li>
+                ))}
+              </ul>
+            </div>
+            
+            <div class="demo-schedule">
+              <h3>Scheduled Times</h3>
+              <div class="schedule-times">
+                {demo.schedule.map(session => (
+                  <div class="schedule-session">
+                    <div class="session-day">{session.day}</div>
+                    <div class="session-time">{session.time}</div>
+                    <div class="session-location">{session.location}</div>
+                    <Button href={`/schedule#${demo.slug}-${session.day.toLowerCase().replace(' ', '')}`} variant="outline" class="session-btn">Add to My Schedule</Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Demo Stage Map -->
+    <div class="demo-stages">
+      <h2>Demo Stages Location</h2>
+      
+      <div class="stages-map">
+        <img src="/images/demo-stages-map.jpg" alt="Map of demo stages" />
+      </div>
+      
+      <div class="stages-info">
+        <div class="stage-info">
+          <h3>Demo Stage A</h3>
+          <p>Located in the East Wing of the conference center, Demo Stage A features a theater-style setup with seating for 100 attendees and multiple large-screen displays for optimum visibility.</p>
+        </div>
+        
+        <div class="stage-info">
+          <h3>Demo Stage B</h3>
+          <p>Located in the West Wing near the exhibition hall, Demo Stage B offers a more intimate setting with seating for 60 attendees and specialized projection systems for detailed demonstrations.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- FAQ Section -->
+    <div class="demo-faq">
+      <h2>Frequently Asked Questions</h2>
+      
+      <div class="faq-items">
+        <div class="faq-item">
+          <details>
+            <summary>Do I need to register in advance for live demos?</summary>
+            <div class="faq-answer">
+              <p>No, live demos are open to all conference attendees on a first-come, first-served basis. We recommend arriving 10-15 minutes early to secure a seat, especially for popular sessions.</p>
+            </div>
+          </details>
+        </div>
+        
+        <div class="faq-item">
+          <details>
+            <summary>How interactive are the demo sessions?</summary>
+            <div class="faq-answer">
+              <p>Each demo includes time for questions and discussion. Some demos also feature interactive elements where audience members can participate or influence the demonstration in real-time.</p>
+            </div>
+          </details>
+        </div>
+        
+        <div class="faq-item">
+          <details>
+            <summary>Will I receive materials or code samples from the demos?</summary>
+            <div class="faq-answer">
+              <p>Yes, presenters will share links to resources, code samples, and additional documentation after each session. These will also be available in the conference app and online portal.</p>
+            </div>
+          </details>
+        </div>
+        
+        <div class="faq-item">
+          <details>
+            <summary>How technical are the live demonstrations?</summary>
+            <div class="faq-answer">
+              <p>Demos vary in technical depth, but most are designed for a technical audience with some background knowledge of the subject area. Presenters will explain key concepts, but won't cover all fundamentals.</p>
+            </div>
+          </details>
+        </div>
+        
+        <div class="faq-item">
+          <details>
+            <summary>What if I miss a demo I wanted to see?</summary>
+            <div class="faq-answer">
+              <p>Most demos are scheduled multiple times throughout the conference. Additionally, recordings of select demos will be available to attendees after the conference through the online portal.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+    .demos-container {
+      width: 100%;
+      max-width: var(--container-max-width);
+      margin: 0 auto;
+    }
+    
+    .demos-intro {
+      margin-bottom: 3rem;
+      background-color: var(--color-accent-light);
+      padding: 2rem;
+      border-radius: var(--border-radius-lg);
+      border-left: 4px solid var(--color-accent);
+    }
+    
+    .demos-intro p {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      max-width: 800px;
+      color: var(--color-text-dark);
+    }
+    
+    /* Demo Features */
+    .demos-features {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .demo-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .demo-feature:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Color-code each feature */
+    .demo-feature:nth-child(1) {
+      border-top: 4px solid var(--color-accent);
+    }
+    
+    .demo-feature:nth-child(2) {
+      border-top: 4px solid var(--color-secondary);
+    }
+    
+    .demo-feature:nth-child(3) {
+      border-top: 4px solid var(--color-primary);
+    }
+    
+    .demo-feature svg {
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+      padding: 0.75rem;
+      background-color: white;
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid;
+    }
+    
+    .demo-feature:nth-child(1) svg {
+      color: var(--color-accent);
+      border-color: var(--color-accent-light);
+    }
+    
+    .demo-feature:nth-child(2) svg {
+      color: var(--color-secondary);
+      border-color: var(--color-secondary-light);
+    }
+    
+    .demo-feature:nth-child(3) svg {
+      color: var(--color-primary);
+      border-color: var(--color-primary-light);
+    }
+    
+    .demo-feature h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .demo-feature:nth-child(1) h3 {
+      color: var(--color-accent-dark);
+    }
+    
+    .demo-feature:nth-child(2) h3 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .demo-feature:nth-child(3) h3 {
+      color: var(--color-primary-dark);
+    }
+    
+    .demo-feature p {
+      margin-bottom: 0;
+      font-size: 0.95rem;
+      color: var(--color-text);
+    }
+    
+    /* Category Links */
+    .category-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      background-color: var(--color-secondary-light);
+      padding: 1rem;
+      border-radius: var(--border-radius-md);
+    }
+    
+    .category-link {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: white;
+      border-radius: var(--border-radius-md);
+      text-decoration: none;
+      color: var(--color-text-dark);
+      font-weight: 600;
+      transition: all var(--transition-normal);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .category-link:hover {
+      background-color: var(--color-accent-light);
+      color: var(--color-accent-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .category-link.active {
+      background-color: var(--color-secondary);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+    
+    /* Demos List */
+    .demos-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      margin-bottom: 4rem;
+    }
+    
+    .demo-item {
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      scroll-margin-top: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-top: 5px solid var(--color-accent);
+    }
+    
+    .demo-item:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    /* Alternate colors for demo items */
+    .demo-item:nth-child(3n+1) {
+      border-top-color: var(--color-accent);
+    }
+    
+    .demo-item:nth-child(3n+2) {
+      border-top-color: var(--color-secondary);
+    }
+    
+    .demo-item:nth-child(3n+3) {
+      border-top-color: var(--color-primary);
+    }
+    
+    .demo-image {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+    }
+    
+    .demo-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .demo-item:hover .demo-image img {
+      transform: scale(1.1);
+    }
+    
+    .demo-duration {
+      position: absolute;
+      bottom: 1rem;
+      right: 1rem;
+      background: var(--gradient-primary-to-secondary);
+      color: white;
+      padding: 0.5rem 0.75rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .demo-content {
+      padding: 2rem;
+    }
+    
+    .demo-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--color-text-dark);
+    }
+    
+    /* Adjust title color based on demo item color */
+    .demo-item:nth-child(3n+1) .demo-title {
+      color: var(--color-accent-dark);
+    }
+    
+    .demo-item:nth-child(3n+2) .demo-title {
+      color: var(--color-secondary-dark);
+    }
+    
+    .demo-item:nth-child(3n+3) .demo-title {
+      color: var(--color-primary-dark);
+    }
+    
+    .demo-presenters {
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius-md);
+      background-color: var(--color-primary-light);
+    }
+    
+    .presenter-label {
+      color: var(--color-primary-dark);
+      margin-right: 0.5rem;
+      font-weight: 600;
+    }
+    
+    .presenter-names {
+      font-weight: 500;
+      color: var(--color-text-dark);
+    }
+    
+    .demo-description {
+      margin-bottom: 1.5rem;
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--color-text);
+      padding-bottom: 1.5rem;
+      border-bottom: 1px dashed var(--color-border);
+    }
+    
+    /* Demo Topics */
+    .demo-topics {
+      margin-bottom: 2rem;
+    }
+    
+    .demo-topics h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    /* Icon for each section heading */
+    .demo-topics h3::before {
+      content: "🎯";
+      position: absolute;
+      left: 0;
+      top: 2px;
+    }
+    
+    /* Color code headings based on demo item */
+    .demo-item:nth-child(3n+1) .demo-topics h3 {
+      color: var(--color-accent-dark);
+    }
+    
+    .demo-item:nth-child(3n+2) .demo-topics h3 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .demo-item:nth-child(3n+3) .demo-topics h3 {
+      color: var(--color-primary-dark);
+    }
+    
+    .demo-topics ul {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding-left: 1.5rem;
+    }
+    
+    .demo-topics li {
+      position: relative;
+      padding-left: 0.5rem;
+    }
+    
+    /* Colored list markers for topics */
+    .demo-item:nth-child(3n+1) .demo-topics li::marker {
+      color: var(--color-accent);
+    }
+    
+    .demo-item:nth-child(3n+2) .demo-topics li::marker {
+      color: var(--color-secondary);
+    }
+    
+    .demo-item:nth-child(3n+3) .demo-topics li::marker {
+      color: var(--color-primary);
+    }
+    
+    /* Demo Schedule */
+    .demo-schedule {
+      background-color: var(--color-background-alt);
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+    }
+    
+    .demo-schedule h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    /* Icon for schedule heading */
+    .demo-schedule h3::before {
+      content: "📅";
+      position: absolute;
+      left: 0;
+      top: 2px;
+    }
+    
+    /* Color code headings based on demo item */
+    .demo-item:nth-child(3n+1) .demo-schedule h3 {
+      color: var(--color-accent-dark);
+    }
+    
+    .demo-item:nth-child(3n+2) .demo-schedule h3 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .demo-item:nth-child(3n+3) .demo-schedule h3 {
+      color: var(--color-primary-dark);
+    }
+    
+    .schedule-times {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .schedule-session {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      padding: 1rem;
+      background-color: white;
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease;
+    }
+    
+    .schedule-session:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .session-day {
+      font-weight: 700;
+      color: var(--color-text-dark);
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .session-day::before {
+      content: "🔴";
+      font-size: 0.8rem;
+      position: absolute;
+      left: 0;
+      top: 4px;
+    }
+    
+    .session-time {
+      text-align: right;
+      font-weight: 600;
+    }
+    
+    /* Color code time based on demo item */
+    .demo-item:nth-child(3n+1) .session-time {
+      color: var(--color-accent);
+    }
+    
+    .demo-item:nth-child(3n+2) .session-time {
+      color: var(--color-secondary);
+    }
+    
+    .demo-item:nth-child(3n+3) .session-time {
+      color: var(--color-primary);
+    }
+    
+    .session-location {
+      color: var(--color-text-light);
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .session-location::before {
+      content: "📍";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    
+    .session-btn {
+      grid-column: span 2;
+      justify-self: start;
+      margin-top: 0.5rem;
+    }
+    
+    /* Style button for each item */
+    .demo-item:nth-child(3n+1) .session-btn {
+      background-color: var(--color-accent-light);
+      color: var(--color-accent-dark);
+      border-color: var(--color-accent);
+    }
+    
+    .demo-item:nth-child(3n+1) .session-btn:hover {
+      background-color: var(--color-accent);
+      color: white;
+    }
+    
+    .demo-item:nth-child(3n+2) .session-btn {
+      background-color: var(--color-secondary-light);
+      color: var(--color-secondary-dark);
+      border-color: var(--color-secondary);
+    }
+    
+    .demo-item:nth-child(3n+2) .session-btn:hover {
+      background-color: var(--color-secondary);
+      color: white;
+    }
+    
+    .demo-item:nth-child(3n+3) .session-btn {
+      background-color: var(--color-primary-light);
+      color: var(--color-primary-dark);
+      border-color: var(--color-primary);
+    }
+    
+    .demo-item:nth-child(3n+3) .session-btn:hover {
+      background-color: var(--color-primary);
+      color: white;
+    }
+    
+    /* Demo Stages */
+    .demo-stages {
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+      background-color: var(--color-primary-light);
+      padding: 2.5rem;
+      border-radius: var(--border-radius-lg);
+    }
+    
+    .demo-stages h2 {
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: var(--color-primary-dark);
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    
+    .demo-stages h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--color-accent);
+      border-radius: 3px;
+    }
+    
+    .stages-map {
+      margin-bottom: 2rem;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 5px solid white;
+    }
+    
+    .stages-map img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .stages-info {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .stage-info {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stage-info:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    /* Color code the stage info boxes */
+    .stage-info:nth-child(1) {
+      border-left: 4px solid var(--color-accent);
+    }
+    
+    .stage-info:nth-child(2) {
+      border-left: 4px solid var(--color-secondary);
+    }
+    
+    .stage-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+      padding-left: 2rem;
+    }
+    
+    .stage-info:nth-child(1) h3 {
+      color: var(--color-accent-dark);
+    }
+    
+    .stage-info:nth-child(1) h3::before {
+      content: "🅰️";
+      position: absolute;
+      left: 0;
+      top: 2px;
+    }
+    
+    .stage-info:nth-child(2) h3 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .stage-info:nth-child(2) h3::before {
+      content: "🅱️";
+      position: absolute;
+      left: 0;
+      top: 2px;
+    }
+    
+    /* FAQ Section */
+    .demo-faq {
+      margin-top: 4rem;
+      margin-bottom: 2rem;
+      background-color: var(--color-secondary-light);
+      padding: 2.5rem;
+      border-radius: var(--border-radius-lg);
+    }
+    
+    .demo-faq h2 {
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: var(--color-secondary-dark);
+      position: relative;
+      padding-bottom: 1rem;
+    }
+    
+    .demo-faq h2::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--color-primary);
+      border-radius: 3px;
+    }
+    
+    .faq-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .faq-item {
+      background-color: white;
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .faq-item:hover {
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .faq-item details {
+      padding: 0;
+    }
+    
+    .faq-item summary {
+      font-weight: 600;
+      font-size: 1.125rem;
+      cursor: pointer;
+      list-style: none;
+      position: relative;
+      padding: 1.25rem 3rem 1.25rem 1.25rem;
+      transition: background-color 0.3s ease;
+    }
+    
+    .faq-item summary:hover {
+      background-color: var(--color-background-alt);
+    }
+    
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+    
+    .faq-item summary::after {
+      content: '+';
+      position: absolute;
+      right: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      color: var(--color-accent);
+      transition: transform 0.3s ease;
+      width: 24px;
+      height: 24px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: var(--color-accent-light);
+    }
+    
+    .faq-item details[open] summary {
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .faq-item details[open] summary::after {
+      content: '−';
+      transform: translateY(-50%) rotate(180deg);
+    }
+    
+    .faq-answer {
+      padding: 1.25rem;
+      background-color: white;
+    }
+    
+    .faq-answer p {
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+    
+    /* Responsive Styles */
+    @media (min-width: 640px) {
+      .demos-features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .demo-topics ul {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .demo-item {
+        flex-direction: row;
+      }
+      
+      .demo-image {
+        width: 40%;
+        height: auto;
+      }
+      
+      .demos-features {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .schedule-session {
+        grid-template-columns: auto 1fr auto auto;
+        align-items: center;
+      }
+      
+      .session-btn {
+        grid-column: auto;
+        margin-top: 0;
+      }
+      
+      .stages-info {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .category-links {
+        flex-direction: column;
+      }
+      
+      .category-link {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .demo-stages,
+      .demo-faq {
+        padding: 1.5rem;
+      }
+    }
+  </style>

@@ -1,27 +1,701 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+// src/pages/about.astro
+import PageLayout from '../layouts/pagelayout.astro';
+import Button from '../components/button.astro';
+
+// Team members - simple data structure
+const teamMembers = [
+  {
+    name: "Jennifer Reyes",
+    role: "Conference Chair",
+    bio: "Former VP of Engineering with over 20 years of experience in distributed systems and infrastructure scaling.",
+    image: "/public/speaker2.jpg"
+  },
+  {
+    name: "David Park",
+    role: "Technical Program Director",
+    bio: "Systems architect specializing in high-performance computing and machine learning infrastructure.",
+    image: "/public/speaker1.jpg"
+  },
+  {
+    name: "Aisha Johnson",
+    role: "Tech Labs Coordinator",
+    bio: "Developer advocate and educator with expertise in creating engaging hands-on technical workshops.",
+    image: "/public/speaker4.jpg"
+  },
+  {
+    name: "Miguel Sanchez",
+    role: "Speakers Liaison",
+    bio: "Former conference speaker and community builder focused on cultivating diverse technical voices.",
+    image: "/public/speaker3.jpg"
+  }
+];
+
+// FAQ items - simple structure
+const faqItems = [
+  {
+    question: "What is CoreCon?",
+    answer: "CoreCon is the premier conference for core engineers and industry leaders, focusing on in-depth technical content, hands-on experiences, and networking opportunities for professionals who build and maintain critical infrastructure."
+  },
+  {
+    question: "When and where is CoreCon 2025?",
+    answer: "CoreCon 2025 will take place from May 15-17, 2025, at the Tech Conference Center in San Francisco, California."
+  },
+  {
+    question: "Who should attend CoreCon?",
+    answer: "CoreCon is ideal for software engineers, system architects, technical leads, CTOs, infrastructure specialists, and anyone involved in building and maintaining core technology systems."
+  },
+  {
+    question: "What topics will be covered?",
+    answer: "CoreCon 2025 will feature tracks on distributed systems, cloud architecture, performance optimization, security engineering, AI/ML infrastructure, database systems, and emerging technologies."
+  },
+  {
+    question: "Are there opportunities for hands-on learning?",
+    answer: "Yes! CoreCon features dedicated Tech Labs where attendees can participate in guided workshops, hackathons, and live coding sessions led by industry experts."
+  }
+];
 ---
 
-<Layout
-	title="About Me"
-	description="Zachary Cole, 21 y/o"
-	pubDate={new Date('March 06 2025')}
-	heroImage="/blog-placeholder-about.jpg"
+<PageLayout
+  title="About CoreCon"
+  description="Learn about CoreCon, the premier conference for core engineers and industry leaders"
+  heroTitle="About CoreCon"
+  heroSubtitle="The premier conference for core engineering excellence"
 >
-	<p>
-		I’m Zachary Cole! I’m a graphic and interactive design student at HACC, passionate about all 
-		things creative. Whether it’s digital design, illustration, or hands-on projects, I love 
-		bringing ideas to life.
-	</p>
+  <div class="about-container">
+    <!-- Mission Section -->
+    <section class="about-section">
+      <div class="container">
+        <h2>Our Mission</h2>
+        
+        <div class="mission-content">
+          <p>CoreCon was founded with a clear mission: to create a conference that addresses the unique challenges and opportunities faced by the engineers who build and maintain the critical infrastructure powering today's technology landscape.</p>
+          
+          <p>While many tech conferences focus on high-level concepts or specific technologies, CoreCon dives deep into the fundamental engineering principles, architectural patterns, and implementation details that enable reliable, scalable, and efficient systems across the industry.</p>
+          
+          <div class="values-grid">
+            <div class="value-card">
+              <h3>Technical Depth</h3>
+              <p>We prioritize substantive content that goes beyond introductory concepts to explore the nuances of core engineering challenges.</p>
+            </div>
+            
+            <div class="value-card">
+              <h3>Practical Application</h3>
+              <p>We emphasize real-world implementation details and lessons learned from production environments.</p>
+            </div>
+            
+            <div class="value-card">
+              <h3>Community Building</h3>
+              <p>We foster meaningful connections between practitioners facing similar challenges across different industries.</p>
+            </div>
+            
+            <div class="value-card">
+              <h3>Inclusive Excellence</h3>
+              <p>We actively work to create a diverse environment that represents the full spectrum of talent in core engineering.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Venue Section -->
+    <section class="venue-section" id="venue">
+      <div class="container">
+        <h2>Conference Venue</h2>
+        
+        <div class="venue-content">
+          <div class="venue-image">
+            <img src="/public/venue.jpg" alt="Tech Conference Center in San Francisco" />
+          </div>
+          
+          <div class="venue-details">
+            <h3>Tech Conference Center</h3>
+            <p>747 Howard Street<br>San Francisco, CA 94103</p>
+            
+            <div class="venue-features">
+              <h4>Venue Highlights:</h4>
+              <ul>
+                <li>Central downtown location near major hotels</li>
+                <li>State-of-the-art presentation spaces</li>
+                <li>Dedicated areas for hands-on Tech Labs</li>
+                <li>Networking lounges and meeting spaces</li>
+                <li>High-speed WiFi throughout</li>
+              </ul>
+            </div>
+            
+            <div class="venue-actions">
+              <Button href="https://maps.google.com/?q=747+Howard+Street+San+Francisco+CA+94103" variant="outline">
+                View Map
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Team Section -->
+    <section class="team-section">
+      <div class="container">
+        <h2>Meet the Team</h2>
+        
+        <p class="team-intro">CoreCon is organized by a dedicated team of industry veterans with extensive experience in both engineering leadership and conference planning.</p>
+        
+        <div class="team-grid">
+          {teamMembers.map(member => (
+            <div class="team-card">
+              <div class="member-image">
+                <img src={member.image} alt={member.name} />
+              </div>
+              <div class="member-info">
+                <h3>{member.name}</h3>
+                <p class="member-role">{member.role}</p>
+                <p class="member-bio">{member.bio}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-list">
+          {faqItems.map(item => (
+            <div class="faq-item">
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <h2>Contact Us</h2>
+        
+        <div class="contact-grid">
+          <div class="contact-info">
+            <h3>Get in Touch</h3>
+            <p>Have questions about CoreCon? We're here to help!</p>
+            
+            <div class="contact-methods">
+              <div class="contact-method">
+                <h4>Email</h4>
+                <p><a href="mailto:info@corecon.tech">info@corecon.tech</a></p>
+              </div>
+              
+              <div class="contact-method">
+                <h4>Speaker Inquiries</h4>
+                <p><a href="mailto:speakers@corecon.tech">speakers@corecon.tech</a></p>
+              </div>
+              
+              <div class="contact-method">
+                <h4>Sponsorship</h4>
+                <p><a href="mailto:sponsors@corecon.tech">sponsors@corecon.tech</a></p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="contact-social">
+            <h3>Follow Us</h3>
+            
+            <div class="social-links">
+              <a href="" class="social-link">Twitter</a>
+              <a href="" class="social-link">LinkedIn</a>
+              <a href="" class="social-link">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Ready to join us at CoreCon 2025?</h2>
+          <p>Secure your spot today and prepare for three days of technical excellence and valuable connections.</p>
+          <Button href="/register" variant="primary">Register Now</Button>
+        </div>
+      </div>
+    </section>
+  </div>
+</PageLayout>
 
-	<p>
-		Outside of design, you’ll usually find me skateboarding, watching movies and TV, or diving 
-		into comics. Creativity fuels everything I do, from experimenting with new art styles to 
-		exploring storytelling through different mediums.
-	</p>
-
-	<p>
-		I’m always looking for new ways to grow and push my creativity—whether that’s in design, 
-		art, or anything in between.
-	</p>
-</Layout>
+<style>
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .container {
+      padding: 0 1rem;
+    }
+    
+    section {
+      margin-bottom: 4rem;
+    }
+    
+    section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2.5rem;
+      color: var(--color-text-dark);
+    }
+    
+    /* Mission Section - matching Home About section */
+    .about-section {
+      background-color: var(--section-alt-background);
+      padding: 2.5rem 0;
+      border-radius: 0 0 12px 12px;
+    }
+    
+    .mission-content p {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      color: var(--color-text);
+    }
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .value-card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .value-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .value-card:nth-child(1) {
+      border-top: 4px solid var(--color-primary);
+    }
+    
+    .value-card:nth-child(2) {
+      border-top: 4px solid var(--color-secondary);
+    }
+    
+    .value-card:nth-child(3) {
+      border-top: 4px solid var(--color-accent);
+    }
+    
+    .value-card:nth-child(4) {
+      border-top: 4px solid var(--color-success);
+    }
+    
+    .value-card:nth-child(1) h3 {
+      color: var(--color-primary-dark);
+    }
+    
+    .value-card:nth-child(2) h3 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .value-card:nth-child(3) h3 {
+      color: var(--color-accent-dark);
+    }
+    
+    .value-card:nth-child(4) h3 {
+      color: var(--color-success);
+    }
+    
+    .value-card h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.25rem;
+    }
+    
+    .value-card p {
+      margin-bottom: 0;
+      line-height: 1.5;
+      color: var(--color-text);
+    }
+    
+    /* Venue Section - matching Home Highlights section */
+    .venue-section {
+      background-color: var(--color-secondary-light);
+      padding: 3rem 0;
+      border-radius: 12px;
+    }
+    
+    .venue-section h2 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .venue-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .venue-image {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .venue-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .venue-details {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--color-secondary);
+    }
+    
+    .venue-details h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-secondary-dark);
+    }
+    
+    .venue-features {
+      margin: 1.5rem 0;
+    }
+    
+    .venue-features h4 {
+      margin-bottom: 0.75rem;
+      font-size: 1.125rem;
+      color: var(--color-secondary);
+    }
+    
+    .venue-features ul {
+      padding-left: 1.5rem;
+    }
+    
+    .venue-features li {
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    
+    .venue-features li::marker {
+      color: var(--color-secondary);
+    }
+    
+    .venue-actions {
+      margin-top: 1.5rem;
+    }
+    
+    /* Team Section - matching Home Speakers section */
+    .team-section {
+      background-color: var(--color-primary-light);
+      padding: 3rem 0;
+      border-radius: 12px;
+    }
+    
+    .team-section h2 {
+      color: var(--color-primary-dark);
+    }
+    
+    .team-intro {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 2.5rem auto;
+      font-size: 1.125rem;
+      color: var(--color-text);
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .team-card {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .team-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .member-image {
+      height: 200px;
+      overflow: hidden;
+    }
+    
+    .member-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .member-info {
+      padding: 1.5rem;
+      border-top: 4px solid var(--color-primary);
+    }
+    
+    .member-info h3 {
+      margin-bottom: 0.25rem;
+      font-size: 1.25rem;
+      color: var(--color-primary-dark);
+    }
+    
+    .member-role {
+      color: var(--color-primary);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    
+    .member-bio {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--color-text);
+    }
+    
+    /* FAQ Section - matching Home Labs section */
+    .faq-section {
+      background-color: var(--color-accent-light);
+      padding: 3rem 0;
+      border-radius: 12px;
+    }
+    
+    .faq-section h2 {
+      color: var(--color-accent-dark);
+    }
+    
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .faq-item {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-md);
+      border-top: 4px solid var(--color-accent);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .faq-item:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .faq-item h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.25rem;
+      color: var(--color-accent-dark);
+    }
+    
+    .faq-item p {
+      line-height: 1.6;
+      margin-bottom: 0;
+      color: var(--color-text);
+    }
+    
+    /* Contact Section - unique section with secondary theme */
+    .contact-section {
+      background-color: var(--color-secondary-light);
+      padding: 3rem 0;
+      border-radius: 12px;
+    }
+    
+    .contact-section h2 {
+      color: var(--color-secondary-dark);
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .contact-info, 
+    .contact-social {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .contact-info:hover, 
+    .contact-social:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .contact-info {
+      border-left: 4px solid var(--color-secondary);
+    }
+    
+    .contact-social {
+      border-left: 4px solid var(--color-secondary);
+    }
+    
+    .contact-info h3,
+    .contact-social h3 {
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      color: var(--color-secondary-dark);
+    }
+    
+    .contact-methods {
+      margin-top: 1.5rem;
+    }
+    
+    .contact-method {
+      margin-bottom: 1.25rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--color-secondary-light);
+    }
+    
+    .contact-method h4 {
+      margin-bottom: 0.25rem;
+      font-size: 1rem;
+      color: var(--color-secondary);
+    }
+    
+    .contact-method a {
+      color: var(--color-secondary);
+      transition: color 0.3s ease;
+    }
+    
+    .contact-method a:hover {
+      color: var(--color-secondary-dark);
+      text-decoration: underline;
+    }
+    
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .social-link {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background-color: var(--color-secondary-light);
+      color: var(--color-secondary-dark);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background-color: var(--color-secondary);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    /* CTA Section - matching Home CTA section */
+    .cta-section {
+      background: var(--gradient-primary-to-secondary);
+      color: white;
+      text-align: center;
+      padding: 3rem 0;
+      margin-bottom: 0;
+      border-radius: 12px 12px 0 0;
+    }
+    
+    .cta-content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    .cta-section h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+    
+    .cta-section p {
+      margin-bottom: 2rem;
+      font-size: 1.125rem;
+      opacity: 0.9;
+    }
+    
+    .cta-section .btn {
+      background-color: white;
+      color: var(--color-primary-dark);
+      border: none;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .cta-section .btn:hover {
+      background-color: var(--color-background-alt);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Responsive Styles */
+    @media (min-width: 768px) {
+      .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .venue-content {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      
+      .venue-image {
+        flex: 1;
+      }
+      
+      .venue-details {
+        flex: 1;
+      }
+      
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .contact-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+    
+    @media (min-width: 992px) {
+      .team-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    @media (max-width: 767px) {
+      section {
+        margin-bottom: 3rem;
+      }
+      
+      section h2 {
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>

@@ -1,24 +1,592 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+// src/pages/index.astro
+import Layout from '../layouts/layout.astro';
+import Button from '../components/button.astro';
+
+// Simplified data structures
+const highlights = [
+  {
+    title: "Expert-Led Sessions",
+    description: "Learn from industry leaders and core engineers who shape the technologies of tomorrow."
+  },
+  {
+    title: "Hands-On Tech Labs",
+    description: "Apply your knowledge in practical workshops designed to enhance your technical skills."
+  },
+  {
+    title: "Networking Opportunities",
+    description: "Connect with peers, mentors, and potential collaborators in a focused professional environment."
+  },
+  {
+    title: "Live Demos & Showcases",
+    description: "Witness cutting-edge technologies in action with live demonstrations from innovative companies."
+  }
+];
+
+// Featured speakers - simple data
+const featuredSpeakers = [
+  {
+    name: "Alex Johnson",
+    role: "Chief Technology Officer",
+    company: "TechInnovate",
+    image: "./public/speaker1.jpg"
+  },
+  {
+    name: "Sarah Chen",
+    role: "Principal Engineer",
+    company: "DataCore Systems",
+    image: "./public/speaker2.jpg"
+  },
+  {
+    name: "Marcus Williams",
+    role: "Research Director",
+    company: "Future Labs",
+    image: "./public/speaker3.jpg"
+  }
+];
+
+// Featured labs - simple data
+const featuredLabs = [
+  {
+    title: "Cloud-Native Architecture Workshop",
+    description: "Get hands-on experience designing and implementing cloud-native solutions.",
+    image: "/public/lab1.jpg"
+  },
+  {
+    title: "AI Model Deployment Pipeline",
+    description: "Learn how to build a robust CI/CD pipeline for machine learning models.",
+    image: "/public/lab2.jpg"
+  },
+  {
+    title: "Performance Optimization Masterclass",
+    description: "Dive deep into techniques for optimizing system performance at scale.",
+    image: "/public/lab3.jpg"
+  }
+];
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>Zach's Astro Site!</h1>
-			<p>
-				Body text for the homepage of my site.
-			
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Layout title="CoreCon 2025 - Where Core Engineers and Industry Leaders Connect">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>CoreCon 2025</h1>
+      <p class="hero-subtitle">Where Core Engineers and Industry Leaders Connect</p>
+      
+      <div class="hero-details">
+        <div class="hero-detail">May 15-17, 2025</div>
+        <div class="hero-detail">San Francisco, CA</div>
+      </div>
+      
+      <div class="hero-actions">
+        <Button href="/register" variant="primary">Register Now</Button>
+        <Button href="/schedule" variant="outline">View Schedule</Button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="container">
+      <h2>About CoreCon</h2>
+      
+      <div class="about-content">
+        <p>CoreCon brings together the brightest minds in technology to share insights, experiences, and innovations that drive the industry forward. Join us for three days of in-depth technical sessions, hands-on workshops, and meaningful networking.</p>
+        
+        <div class="key-stats">
+          <div class="stat-item">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Expert Speakers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">Technical Sessions</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Hands-on Labs</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Attendees</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Highlights Section -->
+  <section class="highlights-section">
+    <div class="container">
+      <h2>Conference Highlights</h2>
+      
+      <div class="highlights-grid">
+        {highlights.map(item => (
+          <div class="highlight-card">
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <!-- Featured Speakers -->
+  <section class="speakers-section">
+    <div class="container">
+      <h2>Featured Speakers</h2>
+      
+      <div class="speakers-grid">
+        {featuredSpeakers.map(speaker => (
+          <div class="speaker-card">
+            <div class="speaker-image">
+              <img src={speaker.image} alt={speaker.name} />
+            </div>
+            <div class="speaker-info">
+              <h3>{speaker.name}</h3>
+              <p>{speaker.role}</p>
+              <p class="speaker-company">{speaker.company}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="section-action">
+        <Button href="/speakers" variant="outline">View All Speakers</Button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Featured Labs -->
+  <section class="labs-section">
+    <div class="container">
+      <h2>Featured Tech Labs</h2>
+      
+      <div class="labs-grid">
+        {featuredLabs.map(lab => (
+          <div class="lab-card">
+            <div class="lab-image">
+              <img src={lab.image} alt={lab.title} />
+            </div>
+            <div class="lab-info">
+              <h3>{lab.title}</h3>
+              <p>{lab.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="section-action">
+        <Button href="/tech-labs" variant="outline">Explore All Tech Labs</Button>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Registration CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to join us at CoreCon 2025?</h2>
+        <p>Secure your spot today and prepare for three days of technical excellence and valuable connections.</p>
+        <Button href="/register" variant="primary">Register Now</Button>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+	/* General Layout */
+	.container {
+	  max-width: 1200px;
+	  margin: 0 auto;
+	  padding: 0 1rem;
+	}
+	
+	section {
+	  padding: 4rem 0;
+	}
+	
+	section h2 {
+	  text-align: center;
+	  font-size: 2rem;
+	  margin-bottom: 2.5rem;
+	  color: var(--color-text-dark);
+	}
+	
+	.section-action {
+	  text-align: center;
+	  margin-top: 2.5rem;
+	}
+	
+	/* Hero Section */
+	.hero-section {
+	  background-image: url('/public/hero-bg.jpg');
+	  background-size: cover;
+	  background-position: center;
+	  color: white;
+	  position: relative;
+	  padding: 6rem 0;
+	  text-align: center;
+	}
+	
+	.hero-section::before {
+	  content: '';
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7));
+	}
+	
+	.hero-content {
+	  position: relative;
+	  max-width: 800px;
+	  margin: 0 auto;
+	  padding: 0 1rem;
+	}
+	
+	.hero-section h1 {
+	  font-size: 3.5rem;
+	  font-weight: 700;
+	  margin-bottom: 1rem;
+	  color: white;
+	}
+	
+	.hero-subtitle {
+	  font-size: 1.5rem;
+	  margin-bottom: 2rem;
+	  opacity: 0.9;
+	}
+	
+	.hero-details {
+	  display: flex;
+	  justify-content: center;
+	  gap: 2rem;
+	  margin-bottom: 2.5rem;
+	  font-size: 1.25rem;
+	}
+	
+	.hero-actions {
+	  display: flex;
+	  justify-content: center;
+	  gap: 1rem;
+	}
+	
+	/* About Section */
+	.about-section {
+	  background-color: var(--section-alt-background);
+	}
+	
+	.about-content {
+	  text-align: center;
+	  max-width: 800px;
+	  margin: 0 auto;
+	}
+	
+	.about-content p {
+	  font-size: 1.125rem;
+	  line-height: 1.7;
+	  margin-bottom: 2.5rem;
+	  color: var(--color-text);
+	}
+	
+	.key-stats {
+	  display: grid;
+	  grid-template-columns: repeat(2, 1fr);
+	  gap: 2rem;
+	}
+	
+	.stat-item {
+	  background-color: white;
+	  padding: 1.5rem;
+	  border-radius: 8px;
+	  box-shadow: var(--shadow-md);
+	  border-top: 4px solid;
+	}
+	
+	.stat-item:nth-child(1) {
+	  border-top-color: var(--color-primary);
+	}
+	
+	.stat-item:nth-child(2) {
+	  border-top-color: var(--color-secondary);
+	}
+	
+	.stat-item:nth-child(3) {
+	  border-top-color: var(--color-accent);
+	}
+	
+	.stat-item:nth-child(4) {
+	  border-top-color: var(--color-success);
+	}
+	
+	.stat-number {
+	  font-size: 2.5rem;
+	  font-weight: 700;
+	  margin-bottom: 0.5rem;
+	}
+	
+	.stat-item:nth-child(1) .stat-number {
+	  color: var(--color-primary);
+	}
+	
+	.stat-item:nth-child(2) .stat-number {
+	  color: var(--color-secondary);
+	}
+	
+	.stat-item:nth-child(3) .stat-number {
+	  color: var(--color-accent);
+	}
+	
+	.stat-item:nth-child(4) .stat-number {
+	  color: var(--color-success);
+	}
+	
+	.stat-label {
+	  font-size: 1rem;
+	  color: var(--color-text);
+	}
+	
+	/* Highlights Section */
+	.highlights-section {
+	  background-color: var(--color-secondary-light);
+	}
+	
+	.highlights-grid {
+	  display: grid;
+	  grid-template-columns: 1fr;
+	  gap: 2rem;
+	}
+	
+	.highlight-card {
+	  background-color: white;
+	  padding: 2rem;
+	  border-radius: 8px;
+	  box-shadow: var(--shadow-md);
+	  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	  border-left: 4px solid var(--color-secondary);
+	}
+	
+	.highlight-card:hover {
+	  transform: translateY(-5px);
+	  box-shadow: var(--shadow-lg);
+	}
+	
+	.highlight-card h3 {
+	  font-size: 1.25rem;
+	  margin-bottom: 1rem;
+	  color: var(--color-secondary-dark);
+	}
+	
+	.highlight-card p {
+	  color: var(--color-text);
+	  line-height: 1.6;
+	}
+	
+	/* Speakers Section */
+	.speakers-section {
+	  background-color: var(--color-primary-light);
+	}
+	
+	.speakers-grid {
+	  display: grid;
+	  grid-template-columns: 1fr;
+	  gap: 2rem;
+	}
+	
+	.speaker-card {
+	  background-color: white;
+	  border-radius: 8px;
+	  overflow: hidden;
+	  box-shadow: var(--shadow-md);
+	  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.speaker-card:hover {
+	  transform: translateY(-5px);
+	  box-shadow: var(--shadow-lg);
+	}
+	
+	.speaker-image {
+	  height: 200px;
+	  overflow: hidden;
+	}
+	
+	.speaker-image img {
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	}
+	
+	.speaker-info {
+	  padding: 1.5rem;
+	  border-top: 4px solid var(--color-primary);
+	}
+	
+	.speaker-info h3 {
+	  font-size: 1.25rem;
+	  margin-bottom: 0.5rem;
+	  color: var(--color-primary-dark);
+	}
+	
+	.speaker-info p {
+	  margin: 0;
+	  line-height: 1.4;
+	}
+	
+	.speaker-company {
+	  color: var(--color-text-light);
+	  font-size: 0.9rem;
+	  margin-top: 0.25rem;
+	}
+	
+	/* Labs Section */
+	.labs-section {
+	  background-color: var(--color-accent-light);
+	}
+	
+	.labs-section h2 {
+	  color: var(--color-accent-dark);
+	}
+	
+	.labs-grid {
+	  display: grid;
+	  grid-template-columns: 1fr;
+	  gap: 2rem;
+	}
+	
+	.lab-card {
+	  background-color: white;
+	  border-radius: 8px;
+	  overflow: hidden;
+	  box-shadow: var(--shadow-md);
+	  transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	
+	.lab-card:hover {
+	  transform: translateY(-5px);
+	  box-shadow: var(--shadow-lg);
+	}
+	
+	.lab-image {
+	  height: 200px;
+	  overflow: hidden;
+	}
+	
+	.lab-image img {
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	}
+	
+	.lab-info {
+	  padding: 1.5rem;
+	  border-top: 4px solid var(--color-accent);
+	}
+	
+	.lab-info h3 {
+	  font-size: 1.25rem;
+	  margin-bottom: 0.75rem;
+	  color: var(--color-accent-dark);
+	}
+	
+	.lab-info p {
+	  margin: 0;
+	  color: var(--color-text);
+	  line-height: 1.6;
+	}
+	
+	/* CTA Section */
+	.cta-section {
+	  background: var(--gradient-primary-to-secondary);
+	  color: white;
+	  text-align: center;
+	}
+	
+	.cta-content {
+	  max-width: 700px;
+	  margin: 0 auto;
+	  padding: 2rem 1rem;
+	}
+	
+	.cta-section h2 {
+	  color: white;
+	  margin-bottom: 1rem;
+	}
+	
+	.cta-section p {
+	  margin-bottom: 2rem;
+	  font-size: 1.125rem;
+	  opacity: 0.9;
+	}
+	
+	.cta-section .btn {
+	  font-size: 1.125rem;
+	  padding: 0.75rem 2rem;
+	  background-color: white;
+	  color: var(--color-primary-dark);
+	  border: none;
+	}
+	
+	.cta-section .btn:hover {
+	  background-color: var(--color-background-alt);
+	  transform: translateY(-3px);
+	}
+	
+	/* Responsive Styles */
+	@media (min-width: 768px) {
+	  .highlights-grid {
+		grid-template-columns: repeat(2, 1fr);
+	  }
+	  
+	  .speakers-grid,
+	  .labs-grid {
+		grid-template-columns: repeat(3, 1fr);
+	  }
+	  
+	  .key-stats {
+		grid-template-columns: repeat(4, 1fr);
+	  }
+	  
+	  .hero-actions {
+		flex-direction: row;
+	  }
+	}
+	
+	@media (max-width: 767px) {
+	  section {
+		padding: 3rem 0;
+	  }
+	  
+	  section h2 {
+		font-size: 1.75rem;
+		margin-bottom: 2rem;
+	  }
+	  
+	  .hero-section h1 {
+		font-size: 2.5rem;
+	  }
+	  
+	  .hero-subtitle {
+		font-size: 1.25rem;
+	  }
+	  
+	  .hero-details {
+		flex-direction: column;
+		gap: 0.75rem;
+	  }
+	  
+	  .hero-actions {
+		flex-direction: column;
+		gap: 1rem;
+	  }
+	  
+	  .hero-actions .btn {
+		width: 100%;
+	  }
+	  
+	  .speakers-grid {
+		grid-template-columns: repeat(2, 1fr);
+	  }
+	}
+  </style>

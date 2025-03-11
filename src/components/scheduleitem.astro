@@ -1,0 +1,278 @@
+---
+interface Props {
+  time: string;
+  title: string;
+  location?: string;
+  speakers?: Array<{
+    name: string;
+    company?: string;
+    slug?: string;
+  }>;
+  description?: string;
+  track?: 'main' | 'workshop' | 'breakout';
+  type?: 'session' | 'keynote' | 'workshop' | 'break' | 'panel';
+  tags?: string[];
+}
+
+const { 
+  time, 
+  title, 
+  location, 
+  speakers = [], 
+  description, 
+  track = 'main',
+  type = 'session',
+  tags = []
+} = Astro.props;
+---
+
+<div class={`schedule-item schedule-${type}`}>
+  <div class="schedule-time">
+    <span>{time}</span>
+    {track !== 'main' && <span class="schedule-track">{track}</span>}
+  </div>
+  
+  <div class="schedule-content">
+    <div class="schedule-header">
+      <h3 class="schedule-title">{title}</h3>
+      
+      {type !== 'break' && (
+        <div class="schedule-meta">
+          {location && (
+            <div class="schedule-location">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span>{location}</span>
+            </div>
+          )}
+          
+          {type && type !== 'session' && (
+            <div class="schedule-type">
+              <span>{type}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+    
+    {description && <p class="schedule-description">{description}</p>}
+    
+    {tags.length > 0 && (
+      <div class="schedule-tags">
+        {tags.map(tag => (
+          <span class="schedule-tag">{tag}</span>
+        ))}
+      </div>
+    )}
+    
+    {speakers.length > 0 && (
+      <div class="schedule-speakers">
+        {speakers.map(speaker => (
+          <div class="schedule-speaker">
+            {speaker.slug ? (
+              <a href={`/speakers/${speaker.slug}`} class="speaker-name">{speaker.name}</a>
+            ) : (
+              <span class="speaker-name">{speaker.name}</span>
+            )}
+            {speaker.company && <span class="speaker-company">{speaker.company}</span>}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .schedule-item {
+    display: flex;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .schedule-time {
+    width: 110px;
+    padding: 1.5rem;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary-dark);
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .schedule-track {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .schedule-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .schedule-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .schedule-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--color-text-dark);
+  }
+
+  .schedule-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .schedule-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+  }
+
+  .schedule-type {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .schedule-description {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+
+  .schedule-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .schedule-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+
+  .schedule-speakers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .schedule-speaker {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .speaker-name {
+    font-weight: 500;
+    color: var(--color-text-dark);
+    text-decoration: none;
+  }
+
+  a.speaker-name:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .speaker-company {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+  }
+
+  /* Styling for different schedule types */
+  .schedule-keynote .schedule-time {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .schedule-keynote .schedule-type {
+    background-color: var(--color-primary);
+    color: white;
+  }
+
+  .schedule-workshop .schedule-time {
+    background-color: var(--color-secondary-light);
+    color: var(--color-secondary-dark);
+  }
+
+  .schedule-workshop .schedule-type {
+    background-color: var(--color-secondary);
+    color: white;
+  }
+
+  .schedule-panel .schedule-type {
+    background-color: var(--color-accent);
+    color: white;
+  }
+
+  .schedule-break {
+    background-color: var(--color-background-alt);
+    box-shadow: none;
+  }
+
+  .schedule-break .schedule-time {
+    background-color: transparent;
+    color: var(--color-text-light);
+  }
+
+  .schedule-break .schedule-title {
+    color: var(--color-text-light);
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .schedule-item {
+      flex-direction: column;
+    }
+
+    .schedule-time {
+      width: 100%;
+      padding: 1rem;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .schedule-track {
+      margin-top: 0;
+    }
+    
+    .schedule-header {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>
